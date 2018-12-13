@@ -13,7 +13,6 @@
 *.pdf
 *.dvi
 *.xdv
-*-converted-to.
 *.bbl
 *.bcf
 *.blg
