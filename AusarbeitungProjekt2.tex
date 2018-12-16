@@ -71,6 +71,7 @@
 % 	\item P2PG was tun wir genau?
 % 	\item Problemstellung auch die PRObleme genau beschreiben oder nur die %Daten und wann beschreibe ich welches Problem nochmal
  %	\item Name für Facility
+ %   \item GERICHTETER GRAPH MIT UMGEDREHTEN KANTEN
 % \end{itemize}
 
 
@@ -95,7 +96,7 @@ In den Facility Knoten kann man entweder einen DSL-Zugangsmultiplexer (DSLAM) in
 Zusätzlich hat jeder Kunde \(k \in K\) noch eine Nachfrage an Bandbreite von $d(k)$ und für den Anschluss eines Kunden kann mit Profit von $p_1(k)$ für Anschluss mit Glasfaser und $p_2(k)$ für den Anschluss mit Kupfer gerechnet werden. Außerdem enstehen bei P2MP noch Kosten für die Installation eines Splitters in H\"ohe von $c_s$.
 
 Die Ergebnisse der einzelnen Probleme auf drei vorgegebenen Instanzen werden jeweils am Ende des Abschnittes beschrieben.
-Um die Laufzeiten der Algorithmen besser vergleichen zu können, geben wir nun die Technischen Daten der genutzten Computer an:
+Um die Laufzeiten der Algorithmen besser vergleichen zu können, geben wir nun die Technischen Daten der genutzten Computer an: \TODO TABELLE PASST NICHT!!
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|c|c|c|c|}
@@ -104,7 +105,7 @@ Um die Laufzeiten der Algorithmen besser vergleichen zu können, geben wir nun d
 		\hline
 		PC 1 &Intel(R) Core(TM) i7-4500 CPU @ 1.80GHz x 4 & 8,00 GB & Ubuntu 18.04.1 LTS\\
 		PC 2 & Intel(R) Core(TM) i5-2430 CPU @ 2.40GHz & 8,00 GB & Windows 10 Home Premium\\
-		PC 3 & 4 x Intel(R) Xeon(R) CPU @ 2.93GHz  & 12,30 GB & ???\\
+		PC 3 & 4 x Intel(R) Xeon(R) CPU @ 2.93GHz  & 12,30 GB & \TODO\\
 		\hline 
 	\end{tabular}
 	\caption{Technische Daten} 
@@ -143,23 +144,24 @@ Außerdem besitzt jeder Kunde genau eine Facility aus $F_1$ von der dieser Kunde
 Andersherum besitzt jede Facility aus $F_1$ nur einen Kunden, den diese anschließen muss. 
 Daher sind die Kosten der optimalen Lösung für die ausgewählte Leitstelle $l$ nun $\text{c}_l:=c(l) + \displaystyle\sum_{f \in F_1} c_{\text{dij}}(\{l,f\}) + c(f)$. 
 %Also die Kosten die Wege von der Leitstelle $l$ zur jeder Facility aus $F_1$ plus die Kosten für die Anschlüsse aller Kunden an die Facility aus $F_1$.
-\textcolor{red}{TODO: sollte das l in L unter argmin nicht zentral sein?}
+%\textcolor{red}{TODO: sollte das l in L unter argmin nicht zentral sein?}
 Nun suchen wir die Leitstelle $i \in L$ mit den geringsten Kosten ($i:=\arg \displaystyle\min_{l \in L} \text{c}_l$). Das zugehörige Netzwerk setzt sich aus den errechneten kürzesten Wegen $W_{i,f}$ für alle $f \in F_1$ und allen Anschlusskanten von Typ 2 zusammen, also ist das Netzwerk die Menge\textcolor{red}{TODO BESPRECHEN DAS IST IA KEINE DISJUNKTE VERINIGUNG} $(\bigcup_{f \in F_1 }W_{i,f}) \cup A_2 $. Die disjunkte Vereinigung bedeutet, dass falls zwei Wege über dieselbe Kante laufen, wir in unserem Netzwerk auch zwei Glasfaserkabel über diese Kante verlegen.
 
+In diesem Algorithmus wenden wir also $|L|$-mal den Dijkstra-Algorithmus an. Dieser hat eine polynomielle Laufzeit von \TODO??. 
 
-\TODO Ergebnisse + Bilder als Übersicht:
+\TODO??
+\textbf{Ergebnisse:} Die errechneten Kosten und die Laufzeiten sind der in folgenden Tabelle 2 dargestellt.
 \begin{table}[h]
 	\centering
 	\begin{tabular}{c|c|c|c}
 		 Instanz & Naunyn & Berlin & Vehlefanz \\	
 		\hline
-		Kosten & \TODO & \TODO & \TODO\\
-		Laufzeit auf PC1 & \TODO & \TODO & \TODO\\
+		Kosten & 480.722 & 1.388.562 & 7.791.258 \\
+		Laufzeit auf PC2 & 0,001s & 0,26s & 2,35s\\
 	\end{tabular}
 	\label{P2PG}
 	\caption{Ergebnisse des P2PG} 
 \end{table}
-\vspace{2cm}
 
 
 \subsection{Point-to-Point mit Glasfaser und Kupfer}
@@ -187,9 +189,9 @@ Dazu konstruieren wir einen weiteren Hilfsgraphen. Sei dazu $E=\{\{l,f  \} \mid 
 \node at (0,-2) {\ldots};
 %\node at (0,-3) {\ldots};
 \node at (1,-4) {\ldots};
-\node at (-8,0) {Leitstelle};
-\node at (-8,-2) {Facilitys};
-\node at (-8,-4) {Kunden};
+\node at (-6.5,0) {Leitstelle};
+\node at (-6.5,-2) {Facilitys};
+\node at (-6.5,-4) {Kunden};
 \path (1) edge node[left, pos = 0.5] {} (2);
 \path (1) edge node[left, pos = 0.5] {} (3);
 \path (1) edge node[right, pos = 0.6] {} (4);
@@ -207,8 +209,8 @@ Dazu konstruieren wir einen weiteren Hilfsgraphen. Sei dazu $E=\{\{l,f  \} \mid 
 Außerdem definieren wir eine Kostenfunktion $c'$ auf den Kanten des Hilfsgraphen wie folgt:
 \begin{align*}
 c': A'' \rightarrow \Q_{\geq 0}, \{ i,j \} \mapsto \left\{\begin{array}{cl} 
-c_{\text{dij}}(\{l,f\}), & \text{falls } \{i,j\} \in E \text{ und } j = f \in F_1\\ 
-c_{\text{dij}}(\{l,f\})+c(j), & \text{falls } \{i,j\} \in E \text{ und } j \color{red}{= f???}\in F_2\\ 
+c_{\text{dij}}(\{l,j\}), & \text{falls } \{i,j\} \in E \text{ und } j \in F_1\\ 
+c_{\text{dij}}(\{l,j\})+c(j), & \text{falls } \{i,j\} \in E \text{ und } j \in F_2\\ 
 c(\{i,j\}) + c(i), & \text{falls } \{i,j\} \in A_1\\ 
 c(\{i,j\}), & \text{falls } \{i,j\} \in A_2\\ 
 \end{array}
@@ -250,15 +252,17 @@ Jetzt bleibt nur noch zu zeigen, dass der Algorithmus das optimale Ergebnis des 
 \begin{proof}
 	\TODO
 \end{proof}
+\TODO LAUFZEIT EIN WENIG ANALYSIEREN???
 
 \TODO Ergebnisse + Bilder als Übersicht:
+\textbf{Ergebnisse:} 
 \begin{table}[h]
 	\centering
 	\begin{tabular}{c|c|c|c}
 		Instanz & Naunyn & Berlin & Vehlefanz \\	
 		\hline
-		Kosten & \TODO & \TODO & \TODO\\
-		Laufzeit auf PC1 & \TODO & \TODO & \TODO\\
+		Kosten & 397.662 & 524.392 & 647.608 \\
+		Laufzeit auf PC2 & 0,03s & 2,89s & 144,61s \\
 	\end{tabular}
 	\label{P2PGK}
 	\caption{Ergebnisse des P2PGK} 
@@ -302,16 +306,33 @@ Es ist leicht zu sehen, dass der Algorithmus \ref{alg1} auch hierfür die optima
 \newpage
 \appendix
 \section*{Anhang}
-
-\begin{figure}
+\textbf{P2PG:}
+\begin{figure}[h]
 	\begin{center}
-		\begin{minipage}{30.0cm}
-			\includegraphics[width=1\textwidth,angle=90,scale=0.75]{./Bilder/Figure_1}
-			\caption{TEST}
+		\begin{minipage}{8.0cm}
+			\includegraphics[width=1\textwidth]{./Bilder/P2PG_Naunyn}
+			\caption{Lösung des P2PG Problems auf der Instanz Naunyn}
 		\end{minipage}
 	\end{center}
 \end{figure}
 
+\begin{figure}[h]
+\begin{center}
+	\begin{minipage}{12.0cm}
+		\includegraphics[width=1\textwidth]{./Bilder/P2PG_Berlin}
+		\caption{Lösung des P2PG Problems auf der Instanz Berlin}
+	\end{minipage}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+	\begin{minipage}{12.0cm}
+		\includegraphics[width=1\textwidth]{./Bilder/P2PG_Vehlefanz}
+		\caption{Lösung des P2PG Problems auf der Instanz Vehlefanz}
+	\end{minipage}
+\end{center}
+\end{figure}
 
 \addcontentsline{toc}{section}{Anhang}
 \thispagestyle{empty}
