@@ -426,9 +426,12 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
  \end{table}
  
  \subsection{Point-to-mulitpoint mit Glasfaser und Kupfer}
+\TODO PROBLEM beschreibung+einleitung
+
+Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG Problems. Seinen also die Entscheidungsvariablen $y_{ij}^t,x_{ij}$ und $s_i$ definiert wie in dem P2MPG Model. Wir fügen noch eine Entscheidungsvariable $m_i \in \{0,1\} \forall i \in F_2$. In jeder Facility von Typ 2 kann bei diesem Problem noch ein DSL-Zugangsmultiplexer installiert werden. Genau dann wenn $m_i=1$ ist, wird ein Multiplexer installiert.
 
   \bigskip
-  $\min \displaystyle\sum_{ij \in A} c'_{ij} x_{ij} + \displaystyle\sum_{i \in F \cup S} c_s s_i + \displaystyle\sum_{i \in F_2} c_(i) m_i$
+  $\min \displaystyle\sum_{ij \in A} c'_{ij} x_{ij} + \displaystyle\sum_{i \in F \cup S} c_s s_i + \displaystyle\sum_{i \in F_2} c(i) m_i$
   \begin{align*}
   \begin{array}{rcrcrcll}
   \textrm{s.t.}  
@@ -461,8 +464,8 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
    		Kosten & \TODO &  &  \\
    		Laufzeit auf PC2 &  &  & \\
    	\end{tabular}
-   	\label{P2MPG}
-   	\caption{Ergebnisse des P2MPG} 
+   	\label{P2MPGK}
+   	\caption{Ergebnisse des P2MPGK} 
    \end{table}
    
    
