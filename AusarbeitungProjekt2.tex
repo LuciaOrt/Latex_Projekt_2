@@ -372,7 +372,7 @@ Betrachten wir hier nun die Instanz Berlin. Für $t=0$ haben wir Kosten von 524.
 Insgesamt spielt es eine Rolle, wie groß der Plaungshorizont ist, aber...?\TODO.......ALLEKJFLKDJFLKJDFLJKKJLFDLKJKLFDKLJFD
 
 \section{Point-to-multipoint communication}
-\TODO PRoblembeschreibung
+\TODO PRoblembeschreibung+Einleitung
  
  \subsection{Point-to-mulitpoint mit Glasfaser}
 \TODO PROBELM BESCHREIBUNG $c_s$ Splitter kosten $a$ wie viele Kabel kann der splitter splitten
@@ -401,15 +401,30 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
  \right. & \forall t \in K & (1) \\
  &&& y_{ij}^t & \leq & x_{ij} & \forall ij \in A, t\in K & (2)\\
  &&& s_i &\leq& \displaystyle\sum_{ji \in A} x_{ji}& \forall  i \in S \cup F& (3)\\ 
- &0&\geq&\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a_s-1)s_i & \forall i \in S \cup F& (4)\\
+ &0&\geq&\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a-1)s_i & \forall i \in S \cup F& (4)\\
  &&& y_{ij}^t & \in & \{0,1 \}& \forall ij \in A, t \in K & (5)\\
  &&& x_{ij} & \in & \Z & \forall ij \in A, t \in K & (6)\\
  &&& s_i & \in & \{ 0,1 \} & \forall i \in F \cup S & (7) \\
  \end{array}
  \end{align*}
+ Die Nebenbedienung (1) modelliert, wie im Steinerbaum Problem mit Flussbedingung, einen Fluss für jeden Kunden $t \in K$ von der Leitstelle $l$ zu dem Kunden. Dabei gibt die Formel $\displaystyle\sum_{ji \in A} y_{ji}^t - \displaystyle\sum_{ij \in A} y_{ij}^t$ die Flusserhaltung an. Falls diese Formel gleich -1 eins ist, geht als ein Fluss aus dem Knoten heraus. Dabei geht keine Kante in die Leitstelle ein, da die Leitstelle nur ausgehende Kanten besitzt. Das gleiche gilt für die Kunden, diese haben nur eingehende Kanten und somit gilt, falls die Formel gleich 1 ist, dass genau ein Flusskante in den Kundenknoten geht. Die zweite Nebenbedingung stellt sicher, dass falls wir eine Kante in dem Fluss von $l$ nach $t$ benutzen, wird diese Kante auch in unserem Netzwerk gekauft. Falls wir einen Splitter auf einem Knoten $i \in S \cup F$ benutzen, braucht dieser Splitter auch ein Kabel, dass er splitten kann. Dies gewährleistet Bedingung (3). Außerdem besitzen die $x_{ij}$-Variablen auch Flusserhaltung, modelliert in Bedingung (4). Dies ist notwendig, da wir nur dann die Kabel aufteilen können, wenn wir auch einen Splitter installieren. Falls wir keinen Splitter installieren, also $s_i=0$, müssen genauso viele Kabel in den Knoten rein gehen, wie auch wieder raus gehen, dh. $\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}=0$. Falls wir einen Splitter installieren ($s_i=1$), können bis zu $a$ Kanten aus diesem Knoten heraus gehen. Deshalb muss die Flusserhaltung der $x_{ij}$ größer als $-(a-1)$ sein. \TODO NEBENBEDINUNG(4)KACKE
+ Die Nebenbedienungen (5)-(7) wurden über dem Model erklärt.
+  
+ \TODO wieso ist das die optimale lösung also wieso schränken wir keine vll besseren 
+ lösungen ein
+ \TODO Ergebnisse beschreiben +splitter 4 oder 16 oder noch andere splitter
+ \begin{table}[h]
+ 	\centering
+ 	\begin{tabular}{c|c|c|c}
+ 		Instanz & Naunyn & Berlin & Vehlefanz \\	
+ 		\hline
+ 		Kosten & \TODO &  &  \\
+ 		Laufzeit auf PC2 &  &  & \\
+ 	\end{tabular}
+ 	\label{P2MPG}
+ 	\caption{Ergebnisse des P2MPG} 
+ \end{table}
  
- \TODO Nebenbedinungen beschreiben
- \TODO Ergebnisse beschreiben
  \subsection{Point-to-mulitpoint mit Glasfaser und Kupfer}
 
   \bigskip
@@ -435,6 +450,22 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
     &&& m_i & \in & \{ 0,1 \} & \forall i \in F_2 & (10) \\
   \end{array}
   \end{align*}
+  
+   \TODO Nebenbedinungen  +wieso ist das die optimale lösung also wieso schränken wir keine vll besseren lösungen ein
+   \TODO Ergebnisse beschreiben
+   \begin{table}[h]
+   	\centering
+   	\begin{tabular}{c|c|c|c}
+   		Instanz & Naunyn & Berlin & Vehlefanz \\	
+   		\hline
+   		Kosten & \TODO &  &  \\
+   		Laufzeit auf PC2 &  &  & \\
+   	\end{tabular}
+   	\label{P2MPG}
+   	\caption{Ergebnisse des P2MPG} 
+   \end{table}
+   
+   
  \subsection{Erweiterung des P2MPGK}
  
  \section{Zusammenfassung/Fazit}
