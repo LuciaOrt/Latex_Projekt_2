@@ -1,0 +1,146 @@
+\documentclass{beamer}
+\usefonttheme[onlymath]{serif}
+
+\mode<presentation> {
+	\usetheme{Madrid}}
+\usepackage{graphicx}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[ngerman]{varioref}
+\usepackage{amsmath,amssymb,amstext,amsthm}
+\usepackage{babelbib}
+\usepackage[linesnumbered]{algorithm2e}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Prim}{\mathbb{P}}
+%\newcommand{\cha}{\text{$\unlhd$\raisebox{0pt}{$\stackrel{{}_\vert}{}$} }}
+%\newcommand{\AutG}{\text{Aut($G$)}}
+%\newcommand{\SocHi}{\text{\rm Soc($H_i$)}}
+%\newcommand{\bigslant}[2]{\left.\raisebox{.2em}{$#1$}\middle/\raisebox{-.2em}{$#2$}\right.}
+
+%\newcounter{saveenumi}
+%\newcommand{\seti}{\setcounter{saveenumi}{\value{enumi}}}
+%\newcommand{\conti}{\setcounter{enumi}{\value{saveenumi}}}
+
+
+\title[Projekt 2]{Fiber-To-The-x}
+
+\author{Lucia Ortjohann und Moritz Hefner}
+
+\institute[]{Netzwerkoptimierung in der Praxis}
+
+\date{16. November 2018}
+
+\begin{document}
+	\begin{frame} %C
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}{Vor\"uberlegung}
+	\begin{itemize}
+		\item Jeder Kunde \(k \in K\) hat  eine Nachfrage an Bandbreite von $d(k)$.
+		\item Glasfaserkabel liefern unendlich Bandbreite.
+		\item Kupferkabel haben eine beschr\"ankte Kapazit\"at, also die Kanten aus $A_2$.
+		\vspace{0.8cm}
+		\pause
+		\item F\"ur alle Kanten aus $ij \in A_2$ \"uberpr\"ufen wir:\\
+		Falls die Kapazit\"at der Kante $ij$ kleiner ist als der Bedarf  $d(j)$,
+		l\"oschen wir die Kante aus dem Graphen.
+		\item Alle Probleme l\"osen wir auf diesem neuen Graphen. 
+	\end{itemize}
+		
+	\end{frame}
+	\begin{frame}{Point-to-point mit Glasfaser}
+	\scalebox{1}{	\begin{algorithm}[H]
+			\label{algP2PG}
+			\SetKwInOut{Input}{Eingabe}\SetKwInOut{Output}{Ausgabe}
+			\Input{$G=(V,A,c)$}
+			\Output{Leitstelle,Netzwerk,Kosten}
+			\BlankLine
+			
+			\ForAll{$l\in L$}{
+				\ForAll{$f \in F_1$}{
+					Berechne $W_{l,f}$ und $c_{\text{dij}}(\{l,f\})$ mit dem Dijkstra-Algorithmus auf $H=(\{l\} \cup S \cup F , I,c\mid_I)$}
+				$C_l:=c(l) + \displaystyle\sum_{f \in F_1} c_{\text{dij}}(lf) + c(f)$. 
+			}
+			Leitstelle$:=i:=\arg \displaystyle\min_{l \in L} C_l$\\
+			Netzwerk$:=(\dot{\bigcup}_{f \in F_1 }W_{i,f}) \cup A_2 $. \\
+			Kosten$:=C_{i}$
+			\BlankLine
+			\caption{Algorithmus zum Lösen des P2PG Problems}
+	\end{algorithm}}
+
+	\end{frame}
+	\begin{frame}{Point-to-point mit Glasfaser und Kupfer}
+\scalebox{1}{	\begin{algorithm}[H]
+		\label{alg1}
+		\SetKwInOut{Input}{Eingabe}\SetKwInOut{Output}{Ausgabe}
+		\Input{$G=(V,A,c)$}
+		\Output{Leitstelle,Netzwerk,Kosten}
+		\BlankLine
+		
+		\ForAll{$l\in L$}{
+			\ForAll{$f \in F$}{
+				Berechne $W_{l,f}$ und $c_{\text{dij}}(\{l,f\})$ mit dem Dijkstra-Algorithmus auf $H=(\{l\} \cup S \cup F , I,c\mid_I)$ mit Startknoten $l$}
+			Berechne Steinerbaum $T_l$ auf $H'$ mit Wurzel $l$, Terminals $K \cup \{l\}$ und Kosten $c'$\\
+			$C_l:=c(l)+c'(T_l)$ \\
+		}
+		Leitstelle$:=i:=\arg \displaystyle\min_{l \in L} \text{Kosten}_l$\\
+		Netzwerk$:=(\dot{\bigcup}_{if \in T_i \cap E'}W_{i,f}) \cup (T_i\cap A)$\\
+		Kosten$:=C_{i}$
+		\BlankLine
+		\caption{Algorithmus zum Lösen des P2PGK Problems}
+	\end{algorithm}}
+	
+
+	\end{frame}
+	\begin{frame}{Erweiterung des P2PGK}
+	\textbf{Bedarf:}
+	\textbf{Profit:}
+
+	\end{frame}
+
+	\begin{frame}{Point-to-multipoint mit Glasfaser}
+	F\"ur jede Leistelle $l \in L$ l\"osen wir: \\
+	Graph:  $G=(V:=\{l\}\cup S \cup F \cup K ,\: \:   A:= I\backslash I_L \cup A_1$)\\
+	\vspace{0.2cm}
+	 $\min \displaystyle\sum_{ij \in A} c'_{ij} x_{ij} + \displaystyle\sum_{i \in F \cup S} c_s s_i $
+	\begin{align*}
+\begin{array}{rcrcrcl}
+\textrm{s.t.}  
+&& &\displaystyle\sum_{ji \in A} y_{ji}^t - \displaystyle\sum_{ij \in A} y_{ij}^t& = & \left\{\begin{array}{cl} 
+-1, & \text{falls } i=l\\ 
+1, & \text{falls } i=t\\ 
+0, & \text{sonst.}\\ 
+\end{array}
+\right. & \forall t \in K\\
+&&& y_{ij}^t & \leq & x_{ij} & \forall ij \in A, t\in K \\
+&&& s_i &\leq& \displaystyle\sum_{ji \in A} x_{ji}& \forall  i \in S \cup F\\ 
+&0&\geq&\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a-1)s_i & \forall i \in S \cup F\\
+&&& y_{ij}^t & \in & \{0,1 \}& \forall ij \in A, t \in K \\
+&&& x_{ij} & \in & \Z_{\geq 0} & \forall ij \in A, t \in K \\
+&&& s_i & \in & \{ 0,1 \} & \forall i \in F \cup S \\
+\end{array}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Point-to-multipoint mit Glasfaser und Kupfer}
+	F\"ur jede Leistelle $l \in L$ l\"osen wir: \\
+    Graph:  $G=(V:=\{l\}\cup S \cup F \cup K ,\: \:   A:= I\backslash I_L \cup A$)\\
+
+
+\end{frame}
+\begin{frame}{Erweiterung des P2MPGK}
+
+\end{frame}
+
+\begin{frame}{Zusammenfassung}
+
+\end{frame}
+
+	
+\end{document}

@@ -17,6 +17,8 @@
 \usepackage{tikz-cd}
 \usepackage{caption}
 \usepackage[linesnumbered]{algorithm2e}
+\usepackage{pgfplots}
+
 
 
 
@@ -170,15 +172,15 @@ Damit kann man das Problem einen Kunden anzuschließen, auch als kürzestes Weg 
 Wir lösen also für jede Leitstelle in $L$ einmal das kürzeste Wege Problem zu jeder Facility von Typ 1.
 
 Dabei gehen wir wie folgt vor:
-Für jede Leitstelle $ l \in L$ berechnen wir auf dem ungerichteten Hilfsgraphen $H=(\{l\} \cup S \cup F , I,c\mid_I)$ einen kostenminimalen Weg von der Leitstelle $l$ zu jeder Facility $f \in F_1$. Dazu führen wir den Algorithmus von Dijkstra zur Berechnung k\"urzester Wege einmal mit Startknoten $l$ durch.
+Für jede Leitstelle $ l \in L$ berechnen wir auf dem Hilfsgraphen $H=(\{l\} \cup S \cup F , I,c\mid_I)$ einen kostenminimalen Weg von der Leitstelle $l$ zu jeder Facility $f \in F_1$. Dazu führen wir den Algorithmus von Dijkstra zur Berechnung k\"urzester Wege einmal mit Startknoten $l$ durch.
 Der errechnete Weg zur Facility \( f \in F_1\) sei nun $W_{l,f}$ und die Kosten dieses Weges seien $c_{\text{dij}}(lf)$. 
 Jeder Kunde besitzt nur eine eingehende Anschlusskante von Typ 1, diese hat Verlegungskosten 0. 
 Außerdem besitzt jeder Kunde genau eine Facility aus $F_1$ von der dieser Kunde mit Glasfaser angeschlossen werden kann. 
 Andersherum besitzt jede Facility aus $F_1$ nur einen Kunden, den diese anschließen muss. 
-Daher sind die Kosten der optimalen Lösung für die ausgewählte Leitstelle $l$ nun $\text{c}_l:=c(l) + \displaystyle\sum_{f \in F_1} c_{\text{dij}}(lf) + c(f)$. 
+Daher sind die Kosten der optimalen Lösung für die ausgewählte Leitstelle $l$ nun $C_l:=c(l) + \displaystyle\sum_{f \in F_1} c_{\text{dij}}(lf) + c(f)$. 
 %Also die Kosten die Wege von der Leitstelle $l$ zur jeder Facility aus $F_1$ plus die Kosten für die Anschlüsse aller Kunden an die Facility aus $F_1$.
 %\textcolor{red}{TODO: sollte das l in L unter argmin nicht zentral sein?}
-Nun suchen wir die Leitstelle $i \in L$ mit den geringsten Kosten ($i:=\arg \displaystyle\min_{l \in L} \text{c}_l$). Das zugehörige Netzwerk setzt sich aus den errechneten kürzesten Wegen $W_{i,f}$ für alle $f \in F_1$ und allen Anschlusskanten von Typ 2 zusammen, also ist das Netzwerk die Menge\textcolor{red}{TODO BESPRECHEN DAS IST IA KEINE DISJUNKTE VERINIGUNG} $(\bigcup_{f \in F_1 }W_{i,f}) \cup A_2 $. Die disjunkte Vereinigung bedeutet, dass falls zwei Wege über dieselbe Kante laufen, wir in unserem Netzwerk auch zwei Glasfaserkabel über diese Kante verlegen.
+Nun suchen wir die Leitstelle $i \in L$ mit den geringsten Kosten ($i:=\arg \displaystyle\min_{l \in L} C_l$). Das zugehörige Netzwerk setzt sich aus den errechneten kürzesten Wegen $W_{i,f}$ für alle $f \in F_1$ und allen Anschlusskanten von Typ 2 zusammen, also ist das Netzwerk die Menge\textcolor{red}{TODO BESPRECHEN DAS IST IA KEINE DISJUNKTE VERINIGUNG} $(\bigcup_{f \in F_1 }W_{i,f}) \cup A_2 $. Die disjunkte Vereinigung bedeutet, dass falls zwei Wege über dieselbe Kante laufen, wir in unserem Netzwerk auch zwei Glasfaserkabel über diese Kante verlegen.
 
 In diesem Algorithmus wenden wir also $|L|$ Mal den Dijkstra-Algorithmus an.
 Dieser hat eine polynomielle Laufzeit von \TODO??. 
@@ -257,9 +259,13 @@ c(ij), & \text{falls } ij \in A_2\\
 \end{align*}
 Für die Kanten $lf$ ergeben sich Kosten von $c_{\text{dij}}(lf)$ für die Verlegung von Glasfaser auf dem Weg von $l$ nach $f$ für alle $f \in F$. Falls $f \in F_2$ eine Facility von Typ 2 ist, addieren wir noch Kosten von $c(f)$ auf die Kante, da wir einen DSLAM auf dieser Facility installieren m\"ussen, falls wir diese Kante sp\"ater benutzen. Für die Kanten $ij \in A$ gibt es Kantenkosten von $c(ij)$. Außerdem addieren wir für $ij \in A_1$ noch die Kosten für den Glasfaseranschluss $c(i)$ auf diese Kante, da $c(ij)=0$ in unseren Instanzen ist und wir nur eine Kante von der Facility $i$ haben, ist es egal, ob wir diese auf die Kanten auf $E$ addieren oder auf die Kanten aus $A_2$.
 
-Dann lösen wir das Steinerbaum Modell mit der Fluss-Formulierung wie in der Vorlesung beschrieben\textcolor{red}{Nicht auf die Vorlesung verweisen MODEL EINFÜGEN}. Dabei wählen wir den Graphen $H'=(V',A')$ mit Kantenkosten $c'$, die Terminals wählen wir als die Kunden $K \cup \{l\}$ und $l$ w\"ahlen wir als Wurzel. Die Lösung des Steinerbaum Modells ist nun ein Baum $T_l$ mit Wurzel $l$, der jeden Kunden mit der Wurzel verbindet. Also ist jeder Kunde mit der Leitstelle $l$ über 2 Kanten verbunden. Die erste Kante ist eine Kante aus $E$ und die zweite Kante ist eine Anschlusskante aus $A_1$ oder $A_2$. Für jede Leitstelle werden mit diesem Modell Kosten $c'(T_l)$ berechnet. Addiert man auf diese Kosten noch die Kosten für den Aufbau der Leitstelle $l$ hinzu, erhält man die Kosten der Lösung für die Leitstelle \(l\), $\text{c}_l:=c(l)+c'(T_l)$.
+Dann lösen wir das Steinerbaum Modell mit der Fluss-Formulierung wie in der Vorlesung beschrieben\textcolor{red}{Nicht auf die Vorlesung verweisen MODEL EINFÜGEN}. Dabei wählen wir den Graphen $H'=(V',A')$ mit Kantenkosten $c'$, die Terminals wählen wir als die Kunden $K \cup \{l\}$ und $l$ w\"ahlen wir als Wurzel. 
+Die Lösung des Steinerbaum Modells ist nun ein Baum $T_l$ mit Wurzel $l$, der jeden Kunden mit der Wurzel verbindet. 
+Also ist jeder Kunde mit der Leitstelle $l$ über 2 Kanten verbunden. Die erste Kante ist eine Kante aus $E$ und die zweite Kante ist eine Anschlusskante aus $A_1$ oder $A_2$. 
+Für jede Leitstelle werden mit diesem Modell Kosten $c'(T_l)$ berechnet. 
+Addiert man auf diese Kosten noch die Kosten für den Aufbau der Leitstelle $l$ hinzu, erhält man die Kosten der Lösung für die Leitstelle \(l\), $C_l:=c(l)+c'(T_l)$.
 
-Um nun eine Lösung des Problems zu erhalten, suchen wir die Leitstelle $i \in L$ mit den geringsten Kosten, $i:=\arg \displaystyle\min_{l \in L} \text{c}_l$. Das zugehörige Netzwerk setzt sich aus den errechneten kürzesten Wegen  $W_{i,f}$ und dem Steinerbaum $T_i$ zusammen. Für jede Kante $if \in T_i$ fügen wir den Weg $W_{i,f}$ zu unserem Netzwerk hinzu. Darüber hinaus fügen wir jede Anschlusskante aus $T_i$ hinzu. Also ergibt sich insgesamt das Netzwerk als die Menge der \textcolor{red}{WIEDER KEINE DISJUNKTEN WEGE IA} Kanten $(\dot{\bigcup}_{if \in T_i \cap E'}W_{i,f}) \cup (T_i\cap A)$.
+Um nun eine Lösung des Problems zu erhalten, suchen wir die Leitstelle $i \in L$ mit den geringsten Kosten, $i:=\arg \displaystyle\min_{l \in L} C_l$. Das zugehörige Netzwerk setzt sich aus den errechneten kürzesten Wegen  $W_{i,f}$ und dem Steinerbaum $T_i$ zusammen. Für jede Kante $if \in T_i$ fügen wir den Weg $W_{i,f}$ zu unserem Netzwerk hinzu. Darüber hinaus fügen wir jede Anschlusskante aus $T_i$ hinzu. Also ergibt sich insgesamt das Netzwerk als die Menge der \textcolor{red}{WIEDER KEINE DISJUNKTEN WEGE IA} Kanten $(\dot{\bigcup}_{if \in T_i \cap E'}W_{i,f}) \cup (T_i\cap A)$.
 \textcolor{red}{finde den n\"achsten satz nicht sch\"on}
 Nochmal zur Zusammenfassung ist hier der Algorithmus aufgeschrieben.
 
@@ -275,11 +281,11 @@ Nochmal zur Zusammenfassung ist hier der Algorithmus aufgeschrieben.
 	\ForAll{$f \in F$}{
 	Berechne $W_{l,f}$ und $c_{\text{dij}}(\{l,f\})$ mit dem Dijkstra-Algorithmus auf $H$}
 	Berechne Steinerbaum $T_l$ auf $H'$ mit Wurzel $l$, Terminals $K \cup \{l\}$ und Kosten $c'$\\
-	$\text{Kosten}_l:=c(l)+c'(T_l)$ \\
+	$C_l:=c(l)+c'(T_l)$ \\
 	}
-	Leitstelle$:=i:=\arg \displaystyle\min_{l \in L} \text{Kosten}_l$\\
+	Leitstelle$:=i:=\arg \displaystyle\min_{l \in L} C_l$\\
 	Netzwerk$:=(\dot{\bigcup}_{if \in T_i \cap E'}W_{i,f}) \cup (T_i\cap A)$\\
-	Kosten$:=\text{Kosten}_{i}$
+	Kosten$:=C_{i}$
 	\BlankLine
 \caption{Algorithmus zum Lösen des P2PGK Problems}
 \end{algorithm}
@@ -416,15 +422,18 @@ Betrachten wir hier nun die Instanz Berlin. Für $t=0$ haben wir Kosten von 524.
 Zusammenfassend ist es in unseren Instanzen beim P2P- Problem wichtiger eine steigende Nachfrage zu betrachten als den Profit für
 
 \section{Point-to-multipoint communication}
-\TODO EINLEITUNG UND PROBLEM BESCHREIBUNG
+In diesem Kapitel behandeln wir die Point-to-multipoint Problemstellung.  Dabei betrachten wir erst den Fall, dass jeder Kunde durch eine Glasfaserkante angeschlossen wird. In dem darauffolgenden Abschnitt k\"onnen Kunden sowohl mit Glasfaser- als auch mit Kupferkabeln an das Netzwerk angeschlossen werden. Im letzten Abschnitt erweitern wir das P2MP mit Glasfaser und Kupfer Problem, indem wir auch monatliche Profit f\"ur den Anschluss eines Kunden mit einberechnen und indem wir unterschiedliche Nachfrage an Bandbreite in unser Modell einbeziehen.
 
  
  \subsection{Point-to-mulitpoint mit Glasfaser}
-\TODO PROBELM BESCHREIBUNG $a$ wie viele Kabel kann der splitter splitten
+ 
+ 
+ Die Problemstellung beim P2MP mit Glasfaser (P2MPG) ist es,  jeden Kunden \"uber einen Glasfaseranschluss in das Netzwerk einzubinden und dabei die entstehenden Kosten zu minimieren. Anders als beim P2PG braucht nicht jeder Kunde eine eigene Leitung (bis auf die lezte Meile), sondern es k\"onnen auch Kabel durch einen Splitter in mehrer Kabel aufgeteilt werden.  Das heisst, bei diesem Problem  m\"ussen wir wieder zuerst eine Leitstelle aus $L$ ausw\"ahlen und dann jeden Kunden an eine Facility anbinden, welche durch eine Glasfaserleitung  an diese Leitstelle angebunden ist. Falls nun ein Splitter in einem Knoten installiert wird und ein Glasfaserkabel in diesen Knoten geht, dann k\"onnen bis zu $a$-viele Kanten aus diesem Knoten herausgehen, wobei $a$ entweder 4 oder 16 ist.
 
-Dieses Problem lösen wir, indem wir das folgende Model für jede Leistelle $l \in L $ mit Gurobi lösen. Sei dazu $A:= I\backslash I_L \cup A_1$, wobei $I_L$ die Menge der ausgehenden Kanten aus den nicht ausgewählten Leitstellen ist.
+Das Problem lösen wir, indem wir das folgende Model für jede Leistelle $l \in L $ mit Gurobi lösen
+ und dann die kostenminimale L\"oesung davon ausw\"ahlen. Sei dazu $A:= I\backslash I_L \cup A_1$, wobei $I_L$ die Menge der ausgehenden Kanten aus den nicht ausgewählten Leitstellen ist.
 Die Entscheidungsvariable $y_{ij}^t \in \{0,1\}\; \forall ij \in A, t \in K$ modelliert einen Fluss von der Leitstelle $l$ zu dem Kunden $t$ für jeden Kunden. Falls $y_{ij}^t=1$ ist, heißt das, dass der Fluss von $l$ nach $t$ über die Kante $ij$ fließt.
-Die Variable $x_{ij} \in \Z \; \forall ij \in A $ gibt an, wie häufig die Kante in dem Netzwerk auftritt, bzw. wie häufig wir eine Kante kaufen müssen. Außerdem haben wir die binäre Entscheidungsvariable $s_i \in \{0,1\}$ für $i \in F \cup S$ eingeführt. Diese gibt an, ob in dem Knoten $i$ ein Splitter installiert wird ($s_i=1$) oder nicht ($s_i=0$). In dem Model wollen wir nun die Kosten für die Installation eines Splitter und die Kosten für die Kanten minimieren. Daf\"ur haben wir die Kostenfunktion \eqref{Kostenfunktion} ver\"andert und haben die Kosten für den Glasfaseranschluss auf die Kantenkosten der Anschlusskanten für Glasfaser addiert.
+Die Variable $x_{ij} \in \Z_{\geq 0} \; \forall ij \in A $ gibt an, wie häufig die Kante in dem Netzwerk auftritt, bzw. wie häufig wir eine Kante kaufen müssen. Außerdem haben wir die binäre Entscheidungsvariable $s_i \in \{0,1\}$ für $i \in F \cup S$ eingeführt. Diese gibt an, ob in dem Knoten $i$ ein Splitter installiert wird ($s_i=1$) oder nicht ($s_i=0$). In dem Model wollen wir nun die Kosten für die Installation eines Splitter und die Kosten für die Kanten minimieren. Daf\"ur haben wir die Kostenfunktion \eqref{Kostenfunktion} ver\"andert und haben die Kosten für den Glasfaseranschluss auf die Kantenkosten der Anschlusskanten für Glasfaser addiert.
 \begin{align}
 \label{KostenfunktionP2MP}
 c': A \rightarrow \Q, ij  \mapsto \left\{\begin{array}{cl} 
@@ -451,15 +460,20 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
  &&& s_i &\leq& \displaystyle\sum_{ji \in A} x_{ji}& \forall  i \in S \cup F& (3)\\ 
  &0&\geq&\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a-1)s_i & \forall i \in S \cup F& (4)\\
  &&& y_{ij}^t & \in & \{0,1 \}& \forall ij \in A, t \in K & (5)\\
- &&& x_{ij} & \in & \Z & \forall ij \in A, t \in K & (6)\\
+ &&& x_{ij} & \in & \Z _{\geq 0}& \forall ij \in A, t \in K & (6)\\
  &&& s_i & \in & \{ 0,1 \} & \forall i \in F \cup S & (7) \\
  \end{array}
  \end{align*}
  Die Nebenbedienung (1) modelliert, wie im Steinerbaum Problem mit Flussbedingung, einen Fluss für jeden Kunden $t \in K$ von der Leitstelle $l$ zu dem Kunden. Dabei gibt die Formel $\displaystyle\sum_{ji \in A} y_{ji}^t - \displaystyle\sum_{ij \in A} y_{ij}^t$ die Flusserhaltung an. Falls diese Formel gleich -1 eins ist, geht als ein Fluss aus dem Knoten heraus. Dabei geht keine Kante in die Leitstelle ein, da die Leitstelle nur ausgehende Kanten besitzt. Das gleiche gilt für die Kunden, diese haben nur eingehende Kanten und somit gilt, falls die Formel gleich 1 ist, dass genau ein Flusskante in den Kundenknoten geht. Die zweite Nebenbedingung stellt sicher, dass falls wir eine Kante in dem Fluss von $l$ nach $t$ benutzen, wird diese Kante auch in unserem Netzwerk gekauft. Falls wir einen Splitter auf einem Knoten $i \in S \cup F$ benutzen, braucht dieser Splitter auch ein Kabel, dass er splitten kann. Dies gewährleistet Bedingung (3). Außerdem besitzen die $x_{ij}$-Variablen auch Flusserhaltung, modelliert in Bedingung (4). Dies ist notwendig, da wir nur dann die Kabel aufteilen können, wenn wir auch einen Splitter installieren. Falls wir keinen Splitter installieren, also $s_i=0$, müssen genauso viele Kabel in den Knoten rein gehen, wie auch wieder raus gehen, dh. $\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}=0$. Falls wir einen Splitter installieren ($s_i=1$), können bis zu $a$ Kanten aus diesem Knoten heraus gehen. Deshalb muss die Flusserhaltung der $x_{ij}$ größer als $-(a-1)$ sein. \TODO NEBENBEDINUNG(4)KACKE
  Die Nebenbedienungen (5)-(7) wurden über dem Model erklärt.
   
+  Falls wir $a=1$ w\"ahlen l\'ost dieses  Model das P2PG Problem.
+  
  \TODO wieso ist das die optimale lösung also wieso schränken wir keine vll besseren 
  lösungen ein
+ 
+  Falls wir $a=1$ w\"ahlen l\'ost dieses  Model das P2PG Problem.
+ 
  \TODO Ergebnisse beschreiben +splitter 4 oder 16 oder noch andere splitter
  \begin{table}[h]
  	\centering
@@ -475,12 +489,12 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
  	\label{P2MPG}
  	\caption{Ergebnisse des P2MPG} 
  \end{table}
- \TODO vergleich von 4 und 16 
+ \TODO vergleich von1, 4 und 16 
  
  \subsection{Point-to-mulitpoint mit Glasfaser und Kupfer}
 \TODO PROBLEM beschreibung+einleitung
 
-Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG Problems. Sei der Graph und die Kosten \eqref{KostenfunktionP2MP} also gegeben wir vorher und  seinen die Entscheidungsvariablen $y_{ij}^t,x_{ij}$ und $s_i$ definiert wie in dem P2MPG Model. Wir fügen noch eine Entscheidungsvariable $m_i \in \{0,1\} \forall i \in F_2$. In jeder Facility von Typ 2 kann bei diesem Problem noch ein DSL-Zugangsmultiplexer installiert werden. Genau dann wenn $m_i=1$ ist, wird ein Multiplexer installiert. Die Zielfunktion des Models wird deswegen noch durch den Summand $\displaystyle\sum_{i \in F_2} c(i) m_i$ erweitert. Insgesamt ergibt sich folgendes Model:
+Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG Problems. Sei der Graph \TODO FALSCHER GRAPH!!! und die Kosten \eqref{KostenfunktionP2MP} also gegeben wir vorher und  seinen die Entscheidungsvariablen $y_{ij}^t,x_{ij}$ und $s_i$ definiert wie in dem P2MPG Model. Wir fügen noch eine Entscheidungsvariable $m_i \in \{0,1\} \forall i \in F_2$. In jeder Facility von Typ 2 kann bei diesem Problem noch ein DSL-Zugangsmultiplexer installiert werden. Genau dann wenn $m_i=1$ ist, wird ein Multiplexer installiert. Die Zielfunktion des Models wird deswegen noch durch den Summand $\displaystyle\sum_{i \in F_2} c(i) m_i$ erweitert. Insgesamt ergibt sich folgendes Model:
 
   \bigskip
   $\min \displaystyle\sum_{ij \in A} c'_{ij} x_{ij} + \displaystyle\sum_{i \in F \cup S} c_s s_i + \displaystyle\sum_{i \in F_2} c(i) m_i$
@@ -500,7 +514,7 @@ Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG 
    &&&s_i+m_i & \leq & 1 & \forall i \in F_2 & (8)\\
    &&&x_{ij}& \leq & m_i & \forall i \in F_2 & (9) \\
     &&& y_{ij}^t & \in & \{0,1 \}& \forall ij \in A, t \in K & (5)\\
-    &&& x_{ij} & \in & \Z & \forall ij \in A, t \in K & (6)\\
+    &&& x_{ij} & \in & \Z_{\geq 0} & \forall ij \in A, t \in K & (6)\\
     &&& s_i & \in & \{ 0,1 \} & \forall i \in F \cup S & (7) \\
     &&& m_i & \in & \{ 0,1 \} & \forall i \in F_2 & (10) \\
   \end{array}
@@ -524,7 +538,7 @@ wurden schon oben dr\"uber erkl\'art.
 	\label{P2MPGK}
 	\caption{Ergebnisse des P2MPGK} 
 \end{table}
-\TODO vergleich von 4 und 16 
+\TODO vergleich von 1,4 und 16 
    
  \subsection{Erweiterung des P2MPGK}
  Wie beim P2PGK-Problem in Abschnitt \ref{Erweiterung des P2PGK} kann man auch hier mit Profiten f\"ur jeden Kunden rechnen oder einen steigenden Bedarf an Bandbreite betrachten.
@@ -549,8 +563,32 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
  \end{align*}
  
  \textbf{Auswertung:} \TODO
+ 
+ \TODO erweiterung verschiedene Splitter mit verschiedenen Kosten
+ 
  \section{Zusammenfassung/Fazit}
  \TODO Graphische verschauen der verschiedenen Ergebnisse der verschiedenen Probleme
+ 
+ \begin{tikzpicture}
+ \begin{axis}[
+	symbolic x coords={P2PGK1,P2PGK1.5,P2PGK3,P2PG,P2MPG,P2MPGK1, P2MPGK1.5,P2MPGK3},
+    x tick label style={rotate=45,anchor=east},
+     height=8cm, width=15cm,
+      bar width=0.4cm,
+      enlarge x limits=true,
+     ylabel=Kosten]
+ \addplot[ybar,fill=red] coordinates {
+ 	(P2PGK1,      524392)
+ 	(P2PGK1.5,   709412)
+ 	(P2PGK3,        1142322)
+ 	(P2PG,        1388562)};
+ 	 \addplot[ybar,fill=blue] coordinates {
+ 	(P2MPG,   1388562)
+ 	(P2MPGK1,      1388562)
+ 	(P2MPGK1.5,   1388562)
+ 	(P2MPGK3,   138856)};
+ \end{axis}
+ \end{tikzpicture}
  
  
 \newpage
@@ -564,7 +602,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 \textbf{P2PG:}
 \begin{figure}[h]
 	\begin{center}
-		\begin{minipage}{8.0cm}
+		\begin{minipage}{15.0cm}
 			\includegraphics[width=1\textwidth]{./Bilder/P2PG_Naunyn}
 			\caption{Lösung des P2PG Problems auf der Instanz Naunyn}
 		\end{minipage}
@@ -573,7 +611,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 
 \begin{figure}[h]
 \begin{center}
-	\begin{minipage}{12.0cm}
+	\begin{minipage}{15.0cm}
 		\includegraphics[width=1\textwidth]{./Bilder/P2PG_Berlin}
 		\caption{Lösung des P2PG Problems auf der Instanz Berlin}
 	\end{minipage}
@@ -582,7 +620,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 
 \begin{figure}
 \begin{center}
-	\begin{minipage}{12.0cm}
+	\begin{minipage}{15.0cm}
 		\includegraphics[width=1\textwidth]{./Bilder/P2PG_Vehlefanz}
 		\caption{Lösung des P2PG Problems auf der Instanz Vehlefanz}
 	\end{minipage}
@@ -625,6 +663,22 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_k$ die Anza
 			\end{tabular}
 			\label{P2PGKProfitN}
 			\caption{Ergebnisse des P2PGK mit Profit f\"ur Naunyn} 
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		Jahre & Kosten & $A_k$ \\	
+		\hline
+	$0$   	 & 647608  &0  \\
+		$10$ 	&  426.328 & 0  \\
+		$20$   	&  205.048  & 0  \\
+		$30$    & $-16.232$& 0  \\
+		$40$    &  $-237.512$ & 0 \\
+	\end{tabular}
+	\label{P2PGKProfitV}
+	\caption{Ergebnisse des P2PGK mit Profit f\"ur Vehlefanz} 
 \end{table}
 
 \addcontentsline{toc}{section}{Anhang}
