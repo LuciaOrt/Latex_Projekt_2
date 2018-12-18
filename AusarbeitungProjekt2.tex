@@ -77,33 +77,50 @@
 
 
 \section{Problemstellung}
-\TODO hübschere Einleitung +HÄSSLICH!!!
 
-In diesem Projekt wollen wir Glasfaserkabel und Kupferkabel in einem vorhanden Straßennetz verlegen, sodass jeder Kunde an eine ausgewählte Leitstelle angebunden ist. Dabei muss die Nachfrage von jedem Kunden gedeckt sein und die Lösung soll möglichst kostengünstig sein. Dafür gibt es verschiedene Problemstellungen. Beim Point-to-point (P2P) Problem soll jeder Kunde (bis auf die letzte Meile) eine eigene Glasfaserleitung bekommen. Beim Point-to-multipoint (P2MP) Problem können sogenannte Splitter installiert werden und Glasfaserkabel zusammgefasst werden.
+Dieses Projekt behandelt die Problemstellung in einem Netzwerk von Kunden und Verbindungswegen diese Kunden mit einer Internetverbindung aus einer Leitstelle zu versorgen.
+Dabei k\"onnen die Kunden entweder via Glasfaser- oder \"uber Kupferkabel mit jeweils verschiedenen Kosten und verschiedenen Bandbreiten angeschlossen werden.
+Jeder Kunde besitzt eine individuelle Nachfrage an Bandbreite, die gedeckt werden muss.
+Gesucht ist ein kosteng\"unstigster Standort f\"ur eine Leitstelle und eine Verbindung von dieser zu jedem Kunden.
+Dabei unterscheiden wir zwischen zwei verschiedenen Problemstellungen.
+Beim Point-to-point (P2P) Problem soll jeder Kunde eine eigene Glasfaserleitung bis zur letzten Anschlusskante (letzte Meile) bekommen.
+Dahingegen dürfen beim Point-to-multipoint (P2MP) Problem sogenannte Splitter installiert werden, die mehrere Glasfaserkabel zusammenfassen k\"onnen.
+ 
+Wir formulieren und lösen diese Probleme auf einem Graphen \(G=(V,A)\).
+Dabei besteht die Knotenmenge aus vier disjunkten Mengen $L,K,F,S \subseteq V$, wobei $L$ die Menge der m\"oglichen Leitstellen ist. Weiterhin ist $K$ die Menge der zu versorgenden Kunden und $F$ ist eine Menge von so genannten Facility Knoten.
+Von einer Facility aus können Kunden mit Glasfaser oder Kupfer angeschlossen werden.
+Die Menge $F_1 \subseteq F$ ist die Menge der Facility Knoten von Typ 1.
+Von diesen aus können Kunden ausschließlich über Glasfaserverbindungen angeschlossen werden.
+Die Facility Knoten, von denen Kunden mit Kupfer angeschlossen werden können, bilden die Menge $F_2$. Dabei sind die Mengen $F_1$ und $F_2$ disjunkt.
+Ferner bildet $S$ die Menge der Knoten, die für die Verbindung der Facility Knoten zu einer Leitstelle genutzt werden k\"onnen (Steinerknoten). 
 
-Um diese Probleme zu lösen sind folgende Daten gegeben. 
-Gegeben ist ein Graph $G=(V,A)$. Die Menge der Knoten besteht aus 4 disjunkten Mengen $L,K,F,S \subseteq V$, wobei $L$ die Menge der auszuwählenden Leitstellen ist. $K$ ist die Menge der zu versorgenden Kunden. Die Menge $F$ ist eine Menge von so genannten Facility Knoten. Von einer Facility können Kunden mit Glasfaser oder Kupfer angeschlossen werden. Die Menge $F_1 \subseteq F$ ist die Menge der Facility Knoten von Typ 1. Hier können Kunden ausschließlich über Glasfaser angeschlossen werden. Die Facility Knoten, von denen Kunden mit Kupfer angeschlossen werden können, bilden die Menge $F_2$. Die Mengen $F_1$ und $F_2$ sind disjunkt.
-$S$ ist die Menge der Knoten, die nur für die Verbindung der Facility Knoten zur Leitstelle genutzt werden k\"onnen (Steinerknoten). 
-
-Die Menge der Kanten $A$ besteht aus den inneren Kanten $I$ und den Anschlusskanten, wobei unterschieden wird, ob diese Verbindung mit Kupfer $A_2$ oder Glasfaser $A_1$ möglich ist. Hier gilt, dass $A_1$ und $A_2$ disjunkt sind.
+Die Menge der Kanten $A$ besteht aus den inneren Kanten $I$ und den Anschlusskanten, wobei unterschieden wird, ob diese Verbindung mit Kupfer $A_2$ oder Glasfaser $A_1$ möglich ist.
+Hier gilt, dass $A_1$ und $A_2$ disjunkt sind.
 Eine Anschlusskante geht immer von einem Knoten der Menge $F$ zu einem Kunden $k \in K$. 
-Im folgenden betrachten wir $G$ als gerichteten Graphen. Dazu fassen wir die Anschlusskanten als Kanten von der Facility zum Kunden auf. Für jede innere Kanten $ij \in I$, außer für die Kanten mit $i \in L$, fügen wir zusätzlich noch die Kante $ji$ zu $I$ hinzu.
-Der Graph bildet das Grundgerüst für unsere Probleme. Zusätzlich gibt es noch einige Bedingungen. Grundsätzlich wollen wir die Kosten des Netzwerks minimieren. 
+Im Folgenden betrachten wir $G$ als gerichteten Graphen.
+Dazu fassen wir die Anschlusskanten als Kanten von der Facility zum Kunden auf.
+Für jede innere Kante $ij \in I$, außer für die Kanten mit $i \in L$, fügen wir zusätzlich noch die Kante $ji$ zu $I$ hinzu.
+Dieser Graph bildet das Grundgerüst für unsere Probleme.
+Zusätzlich gibt es noch einige Bedingungen.
+Grundsätzlich wollen wir die Kosten des Netzwerks minimieren. 
 Dazu ist die Kostenfunktion $c: V \cup A \rightarrow \Q_{\geq 0}$ gegeben.
-Für die Verlegung von Glasfaser auf den inneren Kanten $I$ fallen Kosten in Höhe von $c(e)$ an für alle $e \in I$. 
-Für die Verlegung von Kupfer auf den Anschlusskanten von Typ 2 fallen ebenfalls Kosten in Höhe von $c(e)$ an für alle $e \in A_2$. 
+Für die Verlegung von Glasfaser auf den inneren Kanten $I$ fallen Kosten in Höhe von $c(e)$ für alle $e \in I$ an. 
+Für die Verlegung von Kupfer auf den Anschlusskanten von Typ 2 fallen ebenfalls Kosten in Höhe von $c(e)$ für alle $e \in A_2$ an. 
 Die  Anschlusskanten vom Typ 1 haben die Länge 0 und somit keine Kosten.
 Der Aufbau einer Leitstelle $ l\in L$ kostet $c(l)$. 
-In den Facility Knoten kann man entweder einen DSL-Zugangsmultiplexer (DSLAM) installieren (Facility Knoten von Typ 2) oder einen Kunden an Glasfaser anschließen (Facility Knoten von Typ 1). Dafür entstehen Kosten in Höhe von $c(f)$ für alle $f \in F$.
-Zusätzlich hat jeder Kunde \(k \in K\) noch eine Nachfrage an Bandbreite von $d(k)$ und für den Anschluss eines Kunden kann mit Profit von $p_1(k)$ für Anschluss mit Glasfaser und $p_2(k)$ für den Anschluss mit Kupfer gerechnet werden. Außerdem enstehen bei P2MP noch Kosten für die Installation eines Splitters in H\"ohe von $c_s$.
+In den Facility Knoten kann man entweder einen DSL-Zugangsmultiplexer (DSLAM) installieren (Facility Knoten von Typ 2) oder einen Kunden an Glasfaser anschließen (Facility Knoten von Typ 1).
+Dabei ist zu beachten, dass ein Kunde lediglich dann \"uber ein Kupferkabel von einem Facility Knoten angeschlossen werden kann, wenn in diesem ein DSLAM installiert ist.
+Dafür entstehen Kosten in Höhe von $c(f)$ für alle $f \in F$.
+Zusätzlich hat jeder Kunde \(k \in K\) noch eine Nachfrage an Bandbreite von $d(k)$ und für den Anschluss eines Kunden kann mit Profit von $p_1(k)$ für Anschluss mit Glasfaser und $p_2(k)$ für den Anschluss mit Kupfer gerechnet werden.
+Außerdem enstehen bei P2MP noch Kosten für die Installation eines Splitters in H\"ohe von $c_s$.
 
 Die Ergebnisse der einzelnen Probleme auf drei vorgegebenen Instanzen werden jeweils am Ende des Abschnittes beschrieben.
-Um die Laufzeiten der Algorithmen besser vergleichen zu können, geben wir nun die Technischen Daten der genutzten Computer an: \TODO TABELLE PASST NICHT!!
+Um die Laufzeiten der Algorithmen besser vergleichen zu können, geben wir nun die technischen Daten der genutzten Computer an:
 \begin{table}[h]
 	\centering
-	\begin{tabular}{|c|c|c|c|}
+	\begin{tabular}{|c|p{5.5cm}|c|c|}
 		\hline
-		Computer & Prozessor & RAM & Betriebssystem \\	
+		Computer & \centering{Prozessor} & RAM & Betriebssystem \\	
 		\hline
 		PC 1 &Intel(R) Core(TM) i7-4500 CPU @ 1.80GHz x 4 & 8,00 GB & Ubuntu 18.04.1 LTS\\
 		PC 2 & Intel(R) Core(TM) i5-2430 CPU @ 2.40GHz & 8,00 GB & Windows 10 Home Premium\\
@@ -115,28 +132,35 @@ Um die Laufzeiten der Algorithmen besser vergleichen zu können, geben wir nun d
 
 \section{Vorüberlegung}
 \label{preprocess}
-\TODO Einleitung (Noch mehr Preproccesing??)
 
-Um jeden Kunden dem Bedarf entsprechend zu versorgen, muss die Nachfrage jedes Kunden gedeckt sein.
+Um jeden Kunden seinem Bedarf entsprechend zu versorgen, muss die Nachfrage jedes Kunden gedeckt sein.
 Diese Bedingungen k\"onnen wir mit einfachen Vor\"uberlegungen decken.
 
 Da die Kapazität der Glasfaserleitungen in unserem Modell unendlich ist, wird die Nachfrage eines Kunden auf jeden Fall gedeckt, wenn dieser mit Glasfaser angebunden ist.
-Außerdem kann auf den inneren Kanten nur Glasfaser verlegt werden. Das heißt, die einzigen Kanten, die dafür sorgen könnten, dass die Nachfrage eines Kunden nicht gedeckt ist, sind die Anschlusskanten von Typ 2.
+Außerdem kann auf den inneren Kanten nur Glasfaser verlegt werden.
+Das heißt, die einzigen Kanten, die dafür sorgen könnten, dass die Nachfrage eines Kunden nicht gedeckt ist, sind die Anschlusskanten von Typ 2.
 Die Anschlusskanten von Typ 2 gehen von einer Facility zu einem Kunden.
 Falls die Kapazit\"at dieser Kante nicht mindestens der Nachfrage des Kunden entspricht, können wir die Kante in unserem Netzwerk nicht benutzen. 
 Deswegen löschen wir, bevor wir die verschiedenen Probleme lösen, diese Kanten aus dem oben genannten Graphen.
-Das heißt, jedes Netzwerk in dem neuen Graphen erfüllt somit die Nachfrage aller Kunden.
+Das heißt jedes Netzwerk in dem neuen Graphen erfüllt somit die Nachfrage aller Kunden.
 Daher betrachten wir die Nachfrage der Kunden ab hier nicht weiter.
 Diesen neuen Graphen bezeichnen wir im Folgenden wieder mit $G=(V,A)$ und lösen die folgenden Probleme auf diesem Graphen.
 Da die gelöschten Kanten in keiner der Lösungen benutzt werden könnten, verändert dies die Lösungen nicht.
 
 \section{Point-to-point}
 
-\TODO P2P beschreiben
+Wir behandeln im Folgenden die P2P Problemstellung.
+Zuerst betrachten wir den Fall, dass s\"amtliche Kunden \"uber Glasfaserkanten angeschlossen werden m\"ussen.
+Danach analysieren wir die Variante, dass sowohl Kupfer- als auch Glasfaserverbindungen erlaubt sind und zum Schluss dieses Kapitels ber\"ucksichtigen wir die M\"oglichkeit, dass die Kunden \"uber verschiedene Anschlusskanten auch unterschiedliche monatliche Profite f\"ur das Telekommunikationsunternehmen generieren oder die Nachfrage nach Bandbreite sich erh\"oht.
 
 \subsection{Point-to-point mit Glasfaser}
 
-Beim P2P mit Glasfaser Problem (P2PG) muss jeder Kunde mit einer eigenen Glasfaserleitung angeschlossen werden. Das heißt, unsere Problem besteht darin, eine Leitstelle aus $L$ auszusuchen und dann ein Glasfaserkabel von dieser Leitstelle zu einem Facility Knoten von Typ 1 zu verlegen, um dann mit der Anschlusskante von der Facility zum Kunden den Kunden anzubinden. Dabei sollen die Kosten minimiert werden. Es gibt genau eine Anschlusskante und eine Facility von der ein Kunde mit Glasfaser angebunden werden kann und die Länge dieser Kante ist 0. Damit kann man das Problem einen Kunden anzuschließen, auch als kürzestes Weg Problem von einer Leitstelle zu dem Kunden betrachtet werden. Wir lösen also für jede Leitstelle in $L$ einmal das kürzeste Wege Problem zu jeder Facility von Typ 1.
+Beim P2P mit Glasfaser Problem (P2PG) muss jeder Kunde mit einer eigenen Glasfaserleitung angeschlossen werden.
+Das heißt, unser Problem besteht darin, eine Leitstelle aus $L$ auszusuchen und dann ein Glasfaserkabel von dieser Leitstelle zu einem Facility Knoten von Typ 1 zu verlegen, um dann mit der Anschlusskante von der Facility zum Kunden den Kunden anzubinden.
+Dabei sollen die Kosten minimiert werden.
+Es gibt genau eine Anschlusskante und eine Facility von der ein Kunde mit Glasfaser angebunden werden kann und die Länge dieser Kante ist 0.
+Damit kann man das Problem einen Kunden anzuschließen, auch als kürzestes Weg Problem von einer Leitstelle zu dem Kunden betrachtet werden.
+Wir lösen also für jede Leitstelle in $L$ einmal das kürzeste Wege Problem zu jeder Facility von Typ 1.
 
 Dabei gehen wir wie folgt vor:
 Für jede Leitstelle $ l \in L$ berechnen wir auf dem ungerichteten Hilfsgraphen $H=(\{l\} \cup S \cup F , I,c\mid_I)$ einen kostenminimalen Weg von der Leitstelle $l$ zu jeder Facility $f \in F_1$. Dazu führen wir den Algorithmus von Dijkstra zur Berechnung k\"urzester Wege einmal mit Startknoten $l$ durch.
@@ -149,7 +173,8 @@ Daher sind die Kosten der optimalen Lösung für die ausgewählte Leitstelle $l$
 %\textcolor{red}{TODO: sollte das l in L unter argmin nicht zentral sein?}
 Nun suchen wir die Leitstelle $i \in L$ mit den geringsten Kosten ($i:=\arg \displaystyle\min_{l \in L} \text{c}_l$). Das zugehörige Netzwerk setzt sich aus den errechneten kürzesten Wegen $W_{i,f}$ für alle $f \in F_1$ und allen Anschlusskanten von Typ 2 zusammen, also ist das Netzwerk die Menge\textcolor{red}{TODO BESPRECHEN DAS IST IA KEINE DISJUNKTE VERINIGUNG} $(\bigcup_{f \in F_1 }W_{i,f}) \cup A_2 $. Die disjunkte Vereinigung bedeutet, dass falls zwei Wege über dieselbe Kante laufen, wir in unserem Netzwerk auch zwei Glasfaserkabel über diese Kante verlegen.
 
-In diesem Algorithmus wenden wir also $|L|$-mal den Dijkstra-Algorithmus an. Dieser hat eine polynomielle Laufzeit von \TODO??. 
+In diesem Algorithmus wenden wir also $|L|$ Mal den Dijkstra-Algorithmus an.
+Dieser hat eine polynomielle Laufzeit von \TODO??. 
 
 \TODO??
 \textbf{Ergebnisse:} Die errechneten Kosten und die Laufzeiten sind der in folgenden Tabelle 2 dargestellt.
@@ -169,8 +194,11 @@ Im Anhang befinden sich graphische Darstellungen zu diesen Instanzen.
 
 
 \subsection{Point-to-point mit Glasfaser und Kupfer}
-Das Point-to-point mit Glasfaser und Kupfer Problem (P2PGK) ist wie oben schon erklärt eine Erweiterung des P2PG bei dem jeder Kunde nun auf der letzten Meile mit Kupfer angeschlossen werden kann und diese Kupferkabel werden in einem Facility Knoten von Typ 2 zu einem Glasfaserkabel zusammengefasst. \TODO genauere Problembeschreibung...
-
+Das Point-to-point mit Glasfaser und Kupfer Problem (P2PGK) ist eine Erweiterung des P2PG Problems.
+Hierbei d\"urfen Kunden nun auch \"uber Kupferkabel angeschlossen werden.
+Dabei k\"onnen diese Kupferkabel lediglich als letzte Verbindungskanten von einer Facility von Typ 2 zu einem Kunden verlegt werden.
+Ferner muss, falls ein Kunde von einer Facility aus mit Kupfer angeschlossen wird, in dieser Facility ein DSLAM Multiplexer installiert werden, der Kosten verursacht.
+Jedoch k\"onnen von einer Facility mit installiertem DSLAM beliebig viele Kupferkabel verlegt werden und es muss lediglich eine Glasfaserverbindung in diese Facility daf\"ur eingehen.
 
 Für jede Leitstelle $l \in L$ führen wir den folgenden Algorithmus durch.
 Zuerst berechnen wir für alle Facility Knoten $f \in F$ einen kostenminimalen Weg von der Leitstelle $l$ zu der Facility $f$, genau wie beim P2PG Problem. Dazu führen wir einmal den Algorithmus von Dijkstra für das kürzeste Wege Problem auf dem Hilfsgraphen $H=(\{l\} \cup S \cup F , I,c\mid_I)$ mit Startknoten $l$ aus. Der errechnete Weg sei nun $W_{l,f}$ und die Kosten dieses Weges seien $c_{\text{dij}}(\{l,f\})$.
@@ -251,7 +279,7 @@ Nochmal zur Zusammenfassung ist hier der Algorithmus aufgeschrieben.
 \vspace{0.5cm}
 Jetzt bleibt nur noch zu zeigen, dass der Algorithmus das optimale Ergebnis des P2PGK Problems liefert.
 \begin{satz}
-	Die Lösung des Algorithmus \ref{alg1} ist die optimale Lösung für das P2PGK Problem.
+	Die Lösung des Algorithmus \ref{alg1} ist eine optimale Lösung für das P2PGK Problem.
 \end{satz}
 \begin{proof}
 	\TODO
@@ -273,15 +301,16 @@ Jetzt bleibt nur noch zu zeigen, dass der Algorithmus das optimale Ergebnis des 
 \end{table}
 
 \subsection{Erweiterung des P2PGK}
-\TODO EINLEITUNG SCHÖÖN :(((
-Es gibt noch zwei weitere "Eigenschaften" die man beim P2PGK betrachten kann. Zum einen kann davon ausgegangen werden, dass die Nachfrage der Kunden nach größeren Bandbreite steigt und die angegeben Nachfrage an Bandbreite in den nächsten Jahren nicht mehr aussreicht. ... ZUm anderen Profit
+Wir betrachten nun zwei weitere Parameter des P2PGK.
+Einerseits k\"onnen Kunden je nach Anschlusstechnologie monatliche Profite f\"ur das Telekommunikationsunternehmen verursachen und andererseits kann der Bedarf der Kunden in der n\"achsten Zeit steigen.
 
-Um die steigende Nachfrage an Bandbreite der Kunden zu modellieren, haben wir den angebenden Bedarf mit verschiedenen Werten $d$ multipliziert und dann, wie im Abschnitt \ref{preprocess}, die Kupfer Anschlusskanten gelöscht, die den Bedarf der Kunden nicht decken können. Dann lösen wir das P2PGK Problem erneut. 
+Um die steigende Nachfrage an Bandbreite der Kunden zu modellieren, haben wir den angegebenen Bedarf mit verschiedenen Werten $d$ multipliziert und dann, wie im Abschnitt \ref{preprocess}, die Kupfer Anschlusskanten gelöscht, die den neuen Bedarf der Kunden nicht decken können.
+Dann lösen wir das P2PGK Problem erneut. 
 
 \textbf{Auswertung:}
 Betrachten wir zuerst die kleinste Instanz, Naunyn. Dazu erhöhen wir in $0,5$-Schritten den Bedarfsfaktor $d$. Bei $d=1$, also bei dem normalen P2PGK Problem, wird jeder Kunde mit Kupfer angeschlossen. Erhöht man den Bedarf um die Hälfte des vorhandnen Bedarfs, also $d=1,5$, müssen zwei Kunden mit Glasfaser angeschlossen werden. Dabei erhöhen sich natürlich auch die Kosten von vorher $397.662$ auf $442.842$.
 \TODO? Jedoch ist die Entwicklung, dass sich der Bedarf um die Hälfte erhöht, sehr wahrscheinlich und somit ist es ratsam direkt diese Kunden mit Glasfaser anzuschließen und die höheren Kosten zu investieren.
-Ab einem Bedarfsfaktor von $d=3,5$ werden 3 Kunden an Glasfaser angeschlossen. Erst bei einem Faktor von $d=6,5$ wird der letzte Kunde mit Glasfaser angeschlossen. 
+Ab einem Bedarfsfaktor von $d=3,5$ werden 3 Kunden an Glasfaser angeschlossen. Erst bei einem Faktor von $d=6,5$ wird auch der letzte Kunde mit Glasfaser angeschlossen. 
 \TODO? Es ist also kostensparender diesen Kunden erstmal mit Kupfer anzuschließen. Die Abbildung \ref{P2PGK_Naunyn_Bedarf} veranschaulicht diese Entwicklung nochmal.
 
 \begin{figure}[h]
@@ -373,7 +402,8 @@ Betrachten wir hier nun die Instanz Berlin. Für $t=0$ haben wir Kosten von 524.
 Insgesamt spielt es eine Rolle, wie groß der Plaungshorizont ist, aber...?\TODO.......ALLEKJFLKDJFLKJDFLJKKJLFDLKJKLFDKLJFD
 
 \section{Point-to-multipoint communication}
-\TODO PRoblembeschreibung+Einleitung
+
+
  
  \subsection{Point-to-mulitpoint mit Glasfaser}
 \TODO PROBELM BESCHREIBUNG $c_s$ Splitter kosten $a$ wie viele Kabel kann der splitter splitten
@@ -388,7 +418,7 @@ c(ij)+c(j), & \text{falls } ij \in A_1\\
 \end{array}
 \right.
 \end{align*}
-Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Model.
+Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Modell.
  \bigskip
  $\min \displaystyle\sum_{ij \in A} c'_{ij} x_{ij} + \displaystyle\sum_{i \in F \cup S} c_s s_i $
  \begin{align*}
