@@ -1,3 +1,4 @@
+% !TeX spellcheck = <none>
 \documentclass[11pt,a4paper]{article}
 \usepackage{geometry}
 \geometry{a4paper,left=25mm,right=25mm, top=24mm, bottom=24mm}
@@ -103,7 +104,12 @@ Für jede innere Kante $ij \in I$, außer für die Kanten mit $i \in L$, fügen 
 Dieser Graph bildet das Grundgerüst für unsere Probleme.
 Zusätzlich gibt es noch einige Bedingungen.
 Grundsätzlich wollen wir die Kosten des Netzwerks minimieren. 
-Dazu ist die Kostenfunktion $c: V \cup A \rightarrow \Q_{\geq 0}$ gegeben.
+Dazu ist die Kostenfunktion 
+\begin{align}
+\label{Kostenfunktion}
+c: V \cup A \rightarrow \Q_{\geq 0}
+\end{align}
+ gegeben.
 Für die Verlegung von Glasfaser auf den inneren Kanten $I$ fallen Kosten in Höhe von $c(e)$ für alle $e \in I$ an. 
 Für die Verlegung von Kupfer auf den Anschlusskanten von Typ 2 fallen ebenfalls Kosten in Höhe von $c(e)$ für alle $e \in A_2$ an. 
 Die  Anschlusskanten vom Typ 1 haben die Länge 0 und somit keine Kosten.
@@ -302,6 +308,7 @@ Jetzt bleibt nur noch zu zeigen, dass der Algorithmus das optimale Ergebnis des 
 \end{table}
 
 \subsection{Erweiterung des P2PGK}
+\label{Erweiterung des P2PGK}
 Wir betrachten nun zwei weitere Parameter des P2PGK.
 Einerseits k\"onnen Kunden je nach Anschlusstechnologie monatliche Profite f\"ur das Telekommunikationsunternehmen verursachen und andererseits kann der Bedarf der Kunden in der n\"achsten Zeit steigen.
 
@@ -417,14 +424,15 @@ Zusammenfassend ist es in unseren Instanzen beim P2P- Problem wichtiger eine ste
 
 Dieses Problem lösen wir, indem wir das folgende Model für jede Leistelle $l \in L $ mit Gurobi lösen. Sei dazu $A:= I\backslash I_L \cup A_1$, wobei $I_L$ die Menge der ausgehenden Kanten aus den nicht ausgewählten Leitstellen ist.
 Die Entscheidungsvariable $y_{ij}^t \in \{0,1\}\; \forall ij \in A, t \in K$ modelliert einen Fluss von der Leitstelle $l$ zu dem Kunden $t$ für jeden Kunden. Falls $y_{ij}^t=1$ ist, heißt das, dass der Fluss von $l$ nach $t$ über die Kante $ij$ fließt.
-Die Variable $x_{ij} \in \Z \forall ij \in A $ gibt an, wie häufig die Kante in dem Netzwerk auftritt, bzw. wie häufig wir eine Kante kaufen müssen. Außerdem haben wir die binäre Entscheidungsvariable $s_i \in \{0,1\}$ für $i \in F \cup S$ eingeführt. Diese gibt an, ob in dem Knoten $i$ ein Splitter installiert wird ($s_i=1$) oder nicht ($s_i=0$). In dem Model wollen wir nun die Kosten für die Installation eines Splitter und die Kosten für die Kanten minimieren. Dabei haben wir die Kosten für den Glasfaseranschluss auf die Kantenkosten der Anschlusskanten für Glasfaser addiert.
-\begin{align*}
+Die Variable $x_{ij} \in \Z \; \forall ij \in A $ gibt an, wie häufig die Kante in dem Netzwerk auftritt, bzw. wie häufig wir eine Kante kaufen müssen. Außerdem haben wir die binäre Entscheidungsvariable $s_i \in \{0,1\}$ für $i \in F \cup S$ eingeführt. Diese gibt an, ob in dem Knoten $i$ ein Splitter installiert wird ($s_i=1$) oder nicht ($s_i=0$). In dem Model wollen wir nun die Kosten für die Installation eines Splitter und die Kosten für die Kanten minimieren. Daf\"ur haben wir die Kostenfunktion \eqref{Kostenfunktion} ver\"andert und haben die Kosten für den Glasfaseranschluss auf die Kantenkosten der Anschlusskanten für Glasfaser addiert.
+\begin{align}
+\label{KostenfunktionP2MP}
 c': A \rightarrow \Q, ij  \mapsto \left\{\begin{array}{cl} 
 c(ij), & \text{falls } ij \in I\backslash I_L\\ 
 c(ij)+c(j), & \text{falls } ij \in A_1\\ 
 \end{array}
 \right.
-\end{align*}
+\end{align}
 Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Modell.
 
 
@@ -459,6 +467,8 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
  		Instanz & Naunyn & Berlin & Vehlefanz \\	
  		\hline
  		Kosten für $a=4$ & \TODO &  &  \\
+ 		 Laufzeit auf PC2 &  &  & \\
+ 		 \hline
  		Kosten für $a=16$ & \TODO &  &  \\
  		Laufzeit auf PC2 &  &  & \\
  	\end{tabular}
@@ -470,7 +480,7 @@ Also ergibt sich die folgende Minimierungsfunktion und insgesamt das folgende Mo
  \subsection{Point-to-mulitpoint mit Glasfaser und Kupfer}
 \TODO PROBLEM beschreibung+einleitung
 
-Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG Problems. Seinen also die Entscheidungsvariablen $y_{ij}^t,x_{ij}$ und $s_i$ definiert wie in dem P2MPG Model. Wir fügen noch eine Entscheidungsvariable $m_i \in \{0,1\} \forall i \in F_2$. In jeder Facility von Typ 2 kann bei diesem Problem noch ein DSL-Zugangsmultiplexer installiert werden. Genau dann wenn $m_i=1$ ist, wird ein Multiplexer installiert.
+Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG Problems. Sei der Graph und die Kosten \eqref{KostenfunktionP2MP} also gegeben wir vorher und  seinen die Entscheidungsvariablen $y_{ij}^t,x_{ij}$ und $s_i$ definiert wie in dem P2MPG Model. Wir fügen noch eine Entscheidungsvariable $m_i \in \{0,1\} \forall i \in F_2$. In jeder Facility von Typ 2 kann bei diesem Problem noch ein DSL-Zugangsmultiplexer installiert werden. Genau dann wenn $m_i=1$ ist, wird ein Multiplexer installiert. Die Zielfunktion des Models wird deswegen noch durch den Summand $\displaystyle\sum_{i \in F_2} c(i) m_i$ erweitert. Insgesamt ergibt sich folgendes Model:
 
   \bigskip
   $\min \displaystyle\sum_{ij \in A} c'_{ij} x_{ij} + \displaystyle\sum_{i \in F \cup S} c_s s_i + \displaystyle\sum_{i \in F_2} c(i) m_i$
@@ -486,7 +496,7 @@ Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG 
   &&& y_{ij}^t & \leq & x_{ij} & \forall ij \in A, t\in K & (2)\\
     &&& s_i &\leq& \displaystyle\sum_{ji \in A} x_{ji}& \forall  i \in F \cup S & (3)\\ 
   &0&\geq&\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a-1)s_i & \forall i \in S \cup F_1& (4)\\
-   &0&\geq&\displaystyle\sum_{ji \in A} x_{ji} -m_i - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a-1)s_i & \forall i \in F_2& (4')\\
+   &0&\geq&\displaystyle\sum_{ji \in A} x_{ji} -m_i - \displaystyle\sum_{ij \in I \cup A_1} x_{ij}&\geq& -(a-1)s_i & \forall i \in F_2& (4')\\
    &&&s_i+m_i & \leq & 1 & \forall i \in F_2 & (8)\\
    &&&x_{ij}& \leq & m_i & \forall i \in F_2 & (9) \\
     &&& y_{ij}^t & \in & \{0,1 \}& \forall ij \in A, t \in K & (5)\\
@@ -496,26 +506,49 @@ Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG 
   \end{array}
   \end{align*}
   
-  Die Nebenbedingungen (4) aus dem P2MPG Model bleibt für die Knoten $S \cup F$ die gleiche. In den Knoten aus $F_2$ können wir nun auch eine Multiplexer installieren. Dies müssen wir auch bei der Flusserhaltung der $x_{ij}$ beachten. Die Nebenbedienungen (4') modelliert den Fluss der $x_{ij}$ für die Knoten $i \in F_2$. Falls ein Splitter installiert wird, kann kein Multiplexer installiert werden und die Bedienungen ist wie im P2MPG Model. Falls ein Multiplexer $i \in F_2$
-   
+  Die Nebenbedingungen (4) aus dem P2MPG Model bleibt für die Knoten $S \cup F$ die Gleiche. In den Knoten aus $F_2$ können wir nun auch eine Multiplexer installieren. Dies müssen wir auch bei der Flusserhaltung der $x_{ij}$ beachten. Die Nebenbedienungen (4') modelliert den Fluss der $x_{ij}$ für die Knoten $i \in F_2$. Falls ein Splitter installiert wird, kann kein Multiplexer installiert werden und die Bedienungen ist wie im P2MPG Model. Falls ein Multiplexer $i \in F_2$ ($m_i=1$) installiert wird, geht ein Glasfaserkabel in den Multiplexer und es k\'onnen unendlich viele Kupferkabel, also Anschlusskanten von Typ 2, hinaus gehen. Jedoch muss die Flusserhaltung f\'ur die inneren Kanten und die Anschlusskanten von Typ 1 erhalten bleiben. Dies modelliert die Gleichung $\displaystyle\sum_{ji \in A} x_{ji} -1 - \displaystyle\sum_{ij \in I \cup A_1} x_{ij}=0$.  In jedem Knoten aus $F_2$ kann entweder ein Multiplexer oder ein Splitter installiert werden, nicht beides gleichzeitig. Dies wird durch Nebenbedingung (8) sichergestelllt. Ausserdem d\'urfen nur Kupferkabel aus einer Facility gehen, falls auch ein Multiplexer installiert ist. Dies wird in Nebenbedingnung (9) modelliert. Die Entscheidungsvariablen (5)-(7) und (10)
+wurden schon oben dr\"uber erkl\'art.   
    \TODO+wieso ist das die optimale lösung also wieso schränken wir keine vll besseren lösungen ein
    \TODO Ergebnisse beschreiben
-   \begin{table}[h]
-   	\centering
-   	\begin{tabular}{c|c|c|c}
-   		Instanz & Naunyn & Berlin & Vehlefanz \\	
-   		\hline
-   		Kosten für $a=4$ & \TODO &  &  \\
-   		Kosten für $a=16$ & \TODO &  &  \\
-   		Laufzeit auf PC2  &  &  & \\
-   	\end{tabular}
-   	\label{P2MPGK}
-   	\caption{Ergebnisse des P2MPGK} 
-   \end{table}
-   
+ \begin{table}[h]
+	\centering
+	\begin{tabular}{c|c|c|c}
+		Instanz & Naunyn & Berlin & Vehlefanz \\	
+		\hline
+		Kosten für $a=4$ & \TODO &  &  \\
+		Laufzeit auf PC2 &  &  & \\
+		\hline
+		Kosten für $a=16$ & \TODO &  &  \\
+		Laufzeit auf PC2 &  &  & \\
+	\end{tabular}
+	\label{P2MPGK}
+	\caption{Ergebnisse des P2MPGK} 
+\end{table}
+\TODO vergleich von 4 und 16 
    
  \subsection{Erweiterung des P2MPGK}
+ Wie beim P2PGK-Problem in Abschnitt \ref{Erweiterung des P2PGK} kann man auch hier mit Profiten f\"ur jeden Kunden rechnen oder einen steigenden Bedarf an Bandbreite betrachten.
  
+ Um den voraussichtlich steigenden Bedarf an Bandbreite eines Kunden zu modellieren, haben wir genau wie in Abschnitt \ref{Erweiterung des P2PGK} den angegebenen Bedarf mit verschiedenen Werten $d$ multipliziert und dann die Kanten gel\"oscht, die diesen Bedarf der Kunden nicht decken (siehe Abschnitt \ref{preprocess}), um dann mit diesem neuen Graphen das P2PGK-Problem zu l\"osen.
+ 
+ \textbf{Auswertung:} \TODO
+ 
+  
+Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für den Anschluss eines Kunden  betrachten.
+ Auch hier gehen wir genauso vor wie Abschnitt \ref{Erweiterung des P2PGK}.  Wieder gibt die Varibale  $t$  den Planungshorizont in Monaten an. Wir \"ubergeben unserem Model also noch die Variable $t$ und die Profitfunktion $p$. Ausserdem \"andern wir die Kostenfunktion \eqref{KostenfunktionP2MP}  zu folgender Funktion:
+ \begin{align*}
+  c'': A  \rightarrow \Q,  ij  \mapsto \left\{\begin{array}{cl} 
+ c'(ij), & \text{falls } ij \in I\backslash I_L \\ 
+  c'(ij) -t  \cdot p_1(j), & \text{falls } ij \in I\backslash A_1 \\ 
+    c'(ij) -t \cdot p_2(j), & \text{falls } ij \in I\backslash A_2 \\ 
+\end{array}  \right.
+ \end{align*}
+ Ausserdem erweitern wir das P2MPGK Model durch die Nebenbedingung 
+ \begin{align*}
+ x_{ij} \leq \displaystyle\sum_{t \in K} y_{ij}^t \quad \forall ij \in A \text{ mit } c''(ij) \leq 0
+ \end{align*}
+ 
+ \textbf{Auswertung:} \TODO
  \section{Zusammenfassung/Fazit}
  \TODO Graphische verschauen der verschiedenen Ergebnisse der verschiedenen Probleme
  
@@ -557,10 +590,42 @@ Diese Problem lösen wir mit einer Erweiterung des linearen Programms des P2MPG 
 \end{figure}
 
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\newpage
 \section*{Anhang}
 
-\subsection*{}
+\subsection*{P2PGK mit Profit}
+Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_k$ die Anzahl der Kunden mit einem Glasfaseranschluss.
+\begin{table}[h]
+	\centering
+		\begin{tabular}{c|c|c}
+	\centering
+	Jahre & Kosten & $A_k$ \\	
+	\hline
+	$0$   	 &  524.392 & 3  \\
+	$10$ 	&   366.112& 3  \\
+	$20$   	&   207.832 & 3  \\
+	$30$    &   49.552 & 3  \\
+	$40$    & $-111.448$ & 4 \\
+\end{tabular}
+	\label{P2PGKProfit}
+	\caption{Ergebnisse des P2PGK mit Profit f\"ur Berlin} 
+\end{table}
 
+\begin{table}[h]
+			\centering
+			\begin{tabular}{c|c|c}
+				\centering
+				Jahre & Kosten & $A_k$ \\	
+				\hline
+				$0$   	 &  397.662& 0  \\
+				$10$ 	&  382.062 & 0  \\
+				$20$   	&  366.462  & 0  \\
+				$30$    &  350.862 & 0  \\
+				$40$    &  335.262  & 0 \\
+			\end{tabular}
+			\label{P2PGKProfitN}
+			\caption{Ergebnisse des P2PGK mit Profit f\"ur Naunyn} 
+\end{table}
 
 \addcontentsline{toc}{section}{Anhang}
 \thispagestyle{empty}
