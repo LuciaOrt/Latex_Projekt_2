@@ -602,7 +602,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 \textbf{P2PG:}
 \begin{figure}[h]
 	\begin{center}
-		\begin{minipage}{15.0cm}
+		\begin{minipage}{10.0cm}
 			\includegraphics[width=1\textwidth]{./Bilder/P2PG_Naunyn}
 			\caption{Lösung des P2PG Problems auf der Instanz Naunyn}
 		\end{minipage}
@@ -627,6 +627,35 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 \end{center}
 \end{figure}
 
+\textbf{P2PGK:}
+
+\begin{figure}
+	\begin{center}
+		\begin{minipage}{10.0cm}
+			\includegraphics[width=1\textwidth]{./Bilder/P2PGK_Naunyn_demand1_duration0}
+			\caption{Lösung des P2PGK Problems auf der Instanz Naunyn}
+		\end{minipage}
+	\end{center}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\begin{minipage}{15.0cm}
+			\includegraphics[width=1\textwidth]{./Bilder/P2PGK_Berlin_demand1_duration0}
+			\caption{Lösung des P2PGK Problems auf der Instanz Berlin}
+		\end{minipage}
+	\end{center}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\begin{minipage}{15.0cm}
+			\includegraphics[width=1\textwidth]{./Bilder/P2PGK_Vehlefanz_demand1_duration0}
+			\caption{Lösung des P2PGK Problems auf der Instanz Vehlefanz}
+		\end{minipage}
+	\end{center}
+\end{figure}
+
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \newpage
 \section*{Anhang}
@@ -635,34 +664,18 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_k$ die Anzahl der Kunden mit einem Glasfaseranschluss.
 \begin{table}[h]
 	\centering
-		\begin{tabular}{c|c|c}
-	\centering
-	Jahre & Kosten & $A_k$ \\	
-	\hline
-	$0$   	 &  524.392 & 3  \\
-	$10$ 	&   366.112& 3  \\
-	$20$   	&   207.832 & 3  \\
-	$30$    &   49.552 & 3  \\
-	$40$    & $-111.448$ & 4 \\
-\end{tabular}
+	\begin{tabular}{c|c|c}
+		\centering
+		Jahre & Kosten & $A_k$ \\	
+		\hline
+		$0$   	 &  524.392 & 3  \\
+		$10$ 	&   366.112& 3  \\
+		$20$   	&   207.832 & 3  \\
+		$30$    &   49.552 & 3  \\
+		$40$    & $-111.448$ & 4 \\
+	\end{tabular}
 	\label{P2PGKProfit}
 	\caption{Ergebnisse des P2PGK mit Profit f\"ur Berlin} 
-\end{table}
-
-\begin{table}[h]
-			\centering
-			\begin{tabular}{c|c|c}
-				\centering
-				Jahre & Kosten & $A_k$ \\	
-				\hline
-				$0$   	 &  397.662& 0  \\
-				$10$ 	&  382.062 & 0  \\
-				$20$   	&  366.462  & 0  \\
-				$30$    &  350.862 & 0  \\
-				$40$    &  335.262  & 0 \\
-			\end{tabular}
-			\label{P2PGKProfitN}
-			\caption{Ergebnisse des P2PGK mit Profit f\"ur Naunyn} 
 \end{table}
 
 \begin{table}[h]
@@ -671,7 +684,23 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_k$ die Anza
 		\centering
 		Jahre & Kosten & $A_k$ \\	
 		\hline
-	$0$   	 & 647608  &0  \\
+		$0$   	 &  397.662& 0  \\
+		$10$ 	&  382.062 & 0  \\
+		$20$   	&  366.462  & 0  \\
+		$30$    &  350.862 & 0  \\
+		$40$    &  335.262  & 0 \\
+	\end{tabular}
+	\label{P2PGKProfitN}
+	\caption{Ergebnisse des P2PGK mit Profit f\"ur Naunyn} 
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		Jahre & Kosten & $A_k$ \\	
+		\hline
+		$0$   	 & 647608  &0  \\
 		$10$ 	&  426.328 & 0  \\
 		$20$   	&  205.048  & 0  \\
 		$30$    & $-16.232$& 0  \\
@@ -680,6 +709,69 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_k$ die Anza
 	\label{P2PGKProfitV}
 	\caption{Ergebnisse des P2PGK mit Profit f\"ur Vehlefanz} 
 \end{table}
+
+\subsection*{P2MPGK mit Bedarfsfaktor}
+Hier sind die Ergebnisse des P2PGK-Problems mit Bedarfsfaktor $d$. Dabei ist $A_k$ die Anzahl der Kunden mit einem Glasfaseranschluss.
+\begin{table}[h]
+	\centering
+		\begin{tabular}{c|c|c}
+	\centering
+	$d$ & Kosten & $A_k$ \\	
+	\hline
+	$1$   	 &  397.622 & 0  \\
+	$1,5$ 	&   $427.553,11$  & 2  \\
+	$2$   	&   $427.553,11$ & 2  \\
+	$2,5$   	&   $427.553,11$ & 2  \\
+	$3$    &   $427.553,11$ & 2  \\
+	$3,5$   	&   $445.743,11$ & 3  \\
+	$4$   	&   $445.743,11$& 3  \\
+	$4,5$    & $445.743,11$ & 3 \\
+	$5$   	&   $445.743,11$& 3  \\
+\end{tabular}
+	\label{P2MPGKBedarfN}
+	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Naunyn} 
+\end{table}
+
+\begin{table}[h]
+			\centering
+			\begin{tabular}{c|c|c}
+				\centering
+				$d$ & Kosten & $A_k$ \\	
+		\hline
+	$1$   	 &  397.622 & 0  \\
+	$1,5$ 	&   $427.553,11$  & 2  \\
+	$2$   	&   $427.553,11$ & 2  \\
+	$2,5$   	&   $427.553,11$ & 2  \\
+	$3$    &   $427.553,11$ & 2  \\
+	$3,5$   	&   $445.743,11$ & 3  \\
+	$4$   	&   $445.743,11$& 3  \\
+	$4,5$    & $445.743,11$ & 3 \\
+	$5$   	&   $445.743,11$& 3  \\	
+			\end{tabular}
+			\label{P2PGKBedarfB}
+			\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Berlin} 
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		$d$ & Kosten & $A_k$ \\	
+		\hline
+		$1$   	 &  397.622 & 0  \\
+		$1,5$ 	&   $427.553,11$  & 2  \\
+		$2$   	&   $427.553,11$ & 2  \\
+		$2,5$   	&   $427.553,11$ & 2  \\
+		$3$    &   $427.553,11$ & 2  \\
+		$3,5$   	&   $445.743,11$ & 3  \\
+		$4$   	&   $445.743,11$& 3  \\
+		$4,5$    & $445.743,11$ & 3 \\
+		$5$   	&   $445.743,11$& 3  \\	
+	\end{tabular}
+	\label{P2PGKBedarfV}
+	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Vehlefanz} 
+\end{table}
+
 
 \addcontentsline{toc}{section}{Anhang}
 \thispagestyle{empty}
