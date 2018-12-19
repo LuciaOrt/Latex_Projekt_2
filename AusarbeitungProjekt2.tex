@@ -184,7 +184,7 @@ In diesem Algorithmus wenden wir also $|L|$ Mal den Dijkstra-Algorithmus an.
 Dieser hat eine polynomielle Laufzeit von \(\mathcal{O} ( {|\{l\} \cup S \cup F |}^2 )\).
 
 \textbf{Ergebnisse:} Die errechneten Kosten und die Laufzeiten sind in der folgenden Tabelle 2 dargestellt.
-Die Ergebnisse vergleichen wir in unserer Zusammenfassung.
+Die Ergebnisse  der verschiedenen Probelme vergleichen wir in unserer Zusammenfassung.
 \begin{table}[h]
 	\centering
 	\begin{tabular}{c|c|c|c}
@@ -603,27 +603,77 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
  \section{Zusammenfassung/Fazit}
  \TODO Graphische verschauen der verschiedenen Ergebnisse der verschiedenen Probleme
  
- \begin{tikzpicture}
- \begin{axis}[
-	symbolic x coords={P2PGK1,P2PGK1.5,P2PGK3,P2PG,P2MPG,P2MPGK1, P2MPGK1.5,P2MPGK3},
-    x tick label style={rotate=45,anchor=east},
-     height=8cm, width=15cm,
-      bar width=0.4cm,
-      enlarge x limits=true,
-     ylabel=Kosten]
- \addplot[ybar,fill=red] coordinates {
- 	(P2PGK1,      524392)
- 	(P2PGK1.5,   709412)
- 	(P2PGK3,        1142322)
- 	(P2PG,        1388562)};
- 	 \addplot[ybar,fill=blue] coordinates {
- 	(P2MPG,   1388562)
- 	(P2MPGK1,      1388562)
- 	(P2MPGK1.5,   1388562)
- 	(P2MPGK3,   138856)};
- \end{axis}
- \end{tikzpicture}
+ \begin{figure}[!htbp]
+ 	\begin{tikzpicture}
+ 	\begin{axis}[
+ 	symbolic x coords={P2PGK1,P2PGK1.5,P2PGK3,P2PG,P2MPG,P2MPGK1, P2MPGK1.5,P2MPGK3},
+ 	x tick label style={rotate=45,anchor=east},
+ 	height=8cm, width=15cm,
+ 	bar width=0.4cm,
+ 	enlarge x limits=true,
+ 	ylabel=Kosten]
+ 	\addplot[ybar,fill=red] coordinates {
+ 		(P2PGK1,      524392)
+ 		(P2PGK1.5,   709412)
+ 		(P2PGK3,        1142322)
+ 		(P2PG,        1388562)};
+ 	\addplot[ybar,fill=blue] coordinates {
+ 		(P2MPG,   705182)
+ 		(P2MPGK1,      474909)
+ 		(P2MPGK1.5,   5466)
+ 		(P2MPGK3,    345646)};
+ 	\end{axis}
+ 	\end{tikzpicture}
+ 	\caption{\"Ubersicht der Ergebnisse der Instanz Berlin}
+ \end{figure}
  
+  \begin{figure}[!htbp]
+ 	\begin{tikzpicture}
+ 	\begin{axis}[
+ 	symbolic x coords={P2PGK1,P2PGK1.5,P2PGK3,P2PG,P2MPG,P2MPGK1, P2MPGK1.5,P2MPGK3},
+ 	x tick label style={rotate=45,anchor=east},
+ 	height=8cm, width=15cm,
+ 	bar width=0.4cm,
+ 	enlarge x limits=true,
+ 	ylabel=Kosten]
+ 	\addplot[ybar,fill=red] coordinates {
+ 		(P2PGK1,      524392)
+ 		(P2PGK1.5,   709412)
+ 		(P2PGK3,        1142322)
+ 		(P2PG,        1388562)};
+ 	\addplot[ybar,fill=blue] coordinates {
+ 		(P2MPG,   705182)
+ 		(P2MPGK1,      474909)
+ 		(P2MPGK1.5,   1388562)
+ 		(P2MPGK3,   138856)};
+ 	\end{axis}
+ 	\end{tikzpicture}
+ 	\caption{\"Ubersicht der Ergebnisse der Instanz Naunyn}
+ \end{figure}
+ 
+  \begin{figure}[!htbp]
+ 	\begin{tikzpicture}
+ 	\begin{axis}[
+ 	symbolic x coords={P2PGK1,P2MPGK1,P2MPGK1.5,P2MPGK3,P2PGK1.5,P2PGK3,P2MPG,P2PG},
+ 	x tick label style={rotate=45,anchor=east},
+ 	height=8cm, width=15cm,
+ 	bar width=0.4cm,
+ 	enlarge x limits=true,
+ 	ylabel=Kosten]
+ 	\addplot[ybar,fill=red] coordinates {
+ 		(P2PGK1,      397622)
+ 		(P2PGK1.5,   442842)
+ 		(P2PGK3,        442842)
+ 		(P2PG,        480722)};
+ 	\addplot[ybar,fill=blue] coordinates {
+ 		(P2MPG,   449255)
+ 		(P2MPGK1,      397622)
+ 		(P2MPGK1.5,   427533)
+ 		(P2MPGK3,   427533)};
+ 	\end{axis}
+ 	\end{tikzpicture}
+ 	\caption{\"Ubersicht der Ergebnisse der Instanz Naunyn}
+ \end{figure}
  
 \newpage
 \bibliographystyle{babplain-lf}
@@ -634,7 +684,8 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 \appendix
 \section*{Abbildungsverzeichnis}
 \textbf{P2PG:}
-\begin{figure}[h]\label{p2pg_n_pic}
+\begin{figure}[!htbp]
+	\label{p2pg_n_pic}
 	\begin{center}
 		\begin{minipage}{10.0cm}
 			\includegraphics[width=1\textwidth]{./Bilder/P2PG_Naunyn}
@@ -643,7 +694,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 	\end{center}
 \end{figure}
 
-\begin{figure}[ht]\label{p2pg_b_pic}
+\begin{figure}[!htbp]\label{p2pg_b_pic}
 \begin{center}
 	\begin{minipage}{15.0cm}
 		\includegraphics[width=1\textwidth]{./Bilder/P2PG_Berlin}
@@ -652,7 +703,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]\label{p2pg_v_pic}
+\begin{figure}[!htbp]\label{p2pg_v_pic}
 \begin{center}
 	\begin{minipage}{15.0cm}
 		\includegraphics[width=1\textwidth]{./Bilder/P2PG_Vehlefanz}
@@ -663,7 +714,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 
 \textbf{P2PGK:}
 
-\begin{figure}[ht]\label{p2pgk_n_pic}
+\begin{figure}[!htbp]\label{p2pgk_n_pic}
 	\begin{center}
 		\begin{minipage}{10.0cm}
 			\includegraphics[width=1\textwidth]{./Bilder/P2PGK_Naunyn_demand1_duration0}
@@ -672,7 +723,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 	\end{center}
 \end{figure}
 
-\begin{figure}[ht]\label{p2pgk_b_pic}
+\begin{figure}[!htbp]\label{p2pgk_b_pic}
 	\begin{center}
 		\begin{minipage}{15.0cm}
 			\includegraphics[width=1\textwidth]{./Bilder/P2PGK_Berlin_demand1_duration0}
@@ -681,7 +732,7 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 	\end{center}
 \end{figure}
 
-\begin{figure}[ht]\label{p2pgk_v_pic}
+\begin{figure}[!htbp]\label{p2pgk_v_pic}
 	\begin{center}
 		\begin{minipage}{15.0cm}
 			\includegraphics[width=1\textwidth]{./Bilder/P2PGK_Vehlefanz_demand1_duration0}
@@ -693,10 +744,38 @@ Nun erweitern wir das P2PGK Problem, indem wir zusätzlich noch den Profit für 
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \newpage
 \section*{Anhang}
+\subsection*{Steinerbaum Model mit Fluss Formulierung}
+\textbf{Gegeben:} Graph $G=(V,A)$, Menge an Terminalen $T \subseteq V $, Wurzel $r \in T$, Kostenfunktion $c:A \rightarrow \Q$\\
+\textbf{Gesucht:} Teilgraph von $G$ (Steinerbaum), der alle Knoten aus $T$ verbindet und bei dem die Summe der Kosten minimal ist\\
+\textbf{Entscheidungsvariablen:}\\
+\begin{tabular}{lll}
+	$y_{ij}^t \in \{0,1\}$ &$\forall ij \in A, t\in T $ & modelliert einen Fluss für jeden Terminal $t$ von der Leitstelle $l$\\
+	&& zum Terminal $t$\\
+	$x_{ij} \in \{0,1\}$ & $\forall ij \in A$ &gibt an, ob die Kante $ij$ Teil des Steinerbaums ist ($x_{ij}=1$)\\
+	&& oder nicht ($x_{ij}=0$)\\
+\end{tabular}\\
+\textbf{Model:}
+$\min \displaystyle\sum_{ij \in A} c_{ij} x_{ij} $
+\begin{align}
+\begin{array}{rcrcrcll}
+\textrm{s.t.}  
+&& &\displaystyle\sum_{ji \in A} y_{ji}^t - \displaystyle\sum_{ij \in A} y_{ij}^t& = & \left\{\begin{array}{rl} 
+-1, & \text{falls } i=l\\ 
+1, & \text{falls } i=t\\ 
+0, & \text{sonst}\\ 
+\end{array}
+\right. & \forall t \in T & (1) \\
+  &&& y_{ij}^t & \leq & x_{ij} & \forall ij \in A, t\in T & (2)\\
+&&& y_{ij}^t & \in & \{0,1 \}& \forall ij \in A , t \in T& (3)\\
+&&& x_{ij} & \in & \{0,1\}& \forall ij \in A & (4)\\
+\end{array}
+\label{SteinerbaumModel}
+\end{align}
+
 
 \subsection*{P2PGK mit Profit}
 Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_G$ die Anzahl der Kunden mit einem Glasfaseranschluss.
-\begin{table}[h]
+\begin{table}[!htbp]
 	\centering
 	\begin{tabular}{c|c|c}
 		\centering
@@ -712,7 +791,7 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_G$ die Anza
 	\caption{Ergebnisse des P2PGK mit Profit f\"ur Berlin} 
 \end{table}
 
-\begin{table}[h]
+\begin{table}[!htbp]
 	\centering
 	\begin{tabular}{c|c|c}
 		\centering
@@ -728,7 +807,7 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_G$ die Anza
 	\caption{Ergebnisse des P2PGK mit Profit f\"ur Naunyn} 
 \end{table}
 
-\begin{table}[h]
+\begin{table}[!htbp]
 	\centering
 	\begin{tabular}{c|c|c}
 		\centering
@@ -743,10 +822,10 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Profit. Dabei ist $A_G$ die Anza
 	\label{P2PGKProfitV}
 	\caption{Ergebnisse des P2PGK mit Profit f\"ur Vehlefanz} 
 \end{table}
-
+\vspace{3cm}
 \subsection*{P2MPGK mit Bedarfsfaktor}
 Hier sind die Ergebnisse des P2PGK-Problems mit Bedarfsfaktor $d$. Dabei ist $A_G$ die Anzahl der Kunden mit einem Glasfaseranschluss.
-\begin{table}[h]
+\begin{table}[!htbp]
 	\centering
 		\begin{tabular}{c|c|c}
 	\centering
@@ -766,13 +845,13 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Bedarfsfaktor $d$. Dabei ist $A_
 	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Naunyn} 
 \end{table}
 
-\begin{table}[h]
+\begin{table}[!htbp]
 			\centering
 			\begin{tabular}{c|c|c}
 				\centering
 				$d$ & Kosten & $A_G$ \\	
 		\hline
-	$1$   	 &  397.622 & 0  \\
+	$1$   	 &  \TODO& 0  \\
 	$1,5$ 	&   $427.553,11$  & 2  \\
 	$2$   	&   $427.553,11$ & 2  \\
 	$2,5$   	&   $427.553,11$ & 2  \\
@@ -786,7 +865,7 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Bedarfsfaktor $d$. Dabei ist $A_
 			\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Berlin} 
 \end{table}
 
-\begin{table}[h]
+\begin{table}[!htbp]
 	\centering
 	\begin{tabular}{c|c|c}
 		\centering
@@ -804,6 +883,56 @@ Hier sind die Ergebnisse des P2PGK-Problems mit Bedarfsfaktor $d$. Dabei ist $A_
 	\end{tabular}
 	\label{P2PGKBedarfV}
 	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Vehlefanz} 
+\end{table}
+\vspace{5cm}
+\subsection*{P2MPGK mit Profit}
+Hier sind die Ergebnisse des P2MPGK-Problems mit Profit. Dabei ist $A_G$ die Anzahl der Kunden mit einem Glasfaseranschluss.
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		Jahre & Kosten & $A_G$ \\	
+		\hline
+		$0$   	 &  474.909,28 & 3  \\
+		$10$ 	&  316.320,18 & 5  \\
+		$20$   	&   145.851,1 & 7  \\
+		$30$    &   $ -34.146,17$	& 15  \\
+		$40$    & $-235002,54$ &  24 \\
+	\end{tabular}
+	\label{P2MPGKProfit}
+	\caption{Ergebnisse des P2MPGK mit Profit f\"ur Berlin} 
+\end{table}
+
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		Jahre & Kosten & $A_G$ \\	
+		\hline
+		$0$   	 &  \TODO& 0  \\
+		$10$ 	&  382.062 & 0  \\
+		$20$   	&  366.462  & 0  \\
+		$30$    &  350.862 & 0  \\
+		$40$    &  335.262  & 0 \\
+	\end{tabular}
+	\label{P2MPGKProfitN}
+	\caption{Ergebnisse des P2MPGK mit Profit f\"ur Naunyn} 
+\end{table}
+
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		Jahre & Kosten & $A_G$ \\	
+		\hline
+		$0$   	 & \TODO  &0  \\
+		$10$ 	&  426.328 & 0  \\
+		$20$   	&  205.048  & 0  \\
+		$30$    & $-16.232$& 0  \\
+		$40$    &  $-237.512$ & 0 \\
+	\end{tabular}
+	\label{P2MPGKProfitV}
+	\caption{Ergebnisse des P2MPGK mit Profit f\"ur Vehlefanz} 
 \end{table}
 
 
