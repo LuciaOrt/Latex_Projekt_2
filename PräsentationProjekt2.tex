@@ -141,7 +141,7 @@
 \begin{figure}[h]
 	\centering
 		\includegraphics[height=4cm, width=6cm]{./Bilder/P2PGK_Naunyn_demand1_duration0}
-	\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 1$ auf der Instanz Naunyn}
+	\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 1$ auf der Instanz Naunyn, Kosten: 397.622}
 \end{figure}
 	\end{frame}
 	
@@ -154,7 +154,7 @@
 			\begin{figure}[h]
 				\centering
 				\includegraphics[height=4cm, width=6cm]{./Bilder/P2PGK_Naunyn_demand1_5_duration0_2}
-				\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 1,5$ auf der Instanz Naunyn}
+				\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 1,5$ auf der Instanz Naunyn, Kosten: 442.842}
 			\end{figure}
 		\end{frame}
 		
@@ -167,7 +167,7 @@
 			\begin{figure}[h]
 				\centering
 				\includegraphics[height=4cm, width=6cm]{./Bilder/P2PGK_Naunyn_demand3_5_duration0}
-				\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 3$ auf der Instanz Naunyn}
+				\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 3$ auf der Instanz Naunyn, Kosten: 466.632}
 			\end{figure}
 		\end{frame}
 
@@ -180,7 +180,7 @@
 			\begin{figure}[h]
 				\centering
 				\includegraphics[height=4cm, width=6cm]{./Bilder/P2PGK_Naunyn_demand6_5_duration0}
-				\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 6,5$ auf der Instanz Naunyn}
+				\caption{Lösung des P2PGK mit verschiedenen Bedarfsfaktoren $f = 6,5$ auf der Instanz Naunyn, Kosten: 480.722}
 			\end{figure}
 		\end{frame}
 		
@@ -206,14 +206,14 @@
 			\end{frame}
 		\begin{frame}{Erweiterung des P2PGK mit Profit}
 			\begin{itemize}
-				\item $A_k$ die Anzahl der Kunden mit einem Glasfaseranschluss
+				\item $A_G$ die Anzahl der Kunden mit einem Glasfaseranschluss
 			\end{itemize}
 
 			\begin{table}[h]
 				\centering
 				\begin{tabular}{c|c|c}
 					\centering
-					Jahre & Kosten & $A_k$ \\	
+					Jahre & Kosten & $A_G$ \\	
 					\hline
 					$0$   	 &  524.392 & 3  \\
 					$10$ 	&   366.112& 3  \\
@@ -232,6 +232,13 @@
 	\vspace{0.2cm}
 	\textbf{Graph:}  $G=(V:=\{l\}\cup S \cup F \cup K ,\: \:   A:= I\backslash I_L \cup A_1$)\\
 	\vspace{0.2cm}
+	\textbf{Kosten:}\begin{align*}
+	c': A \rightarrow \Q, ij  \mapsto \left\{\begin{array}{cl} 
+	c(ij), & \text{falls } ij \in I\backslash I_L\\ 
+	c(ij)+c(j), & \text{falls } ij \in A_1\\ 
+	\end{array}
+	\right.
+	\end{align*}
 	\textbf{Entscheidungsvariablen:}\\
 	\begin{tabular}{lll}
 			$y_{ij}^t \in \{0,1\}$ &$\forall ij \in A, t\in K $ & modelliert einen Fluss für jeden Kunden $t$ \\
@@ -273,7 +280,14 @@
 	F\"ur jede Leistelle $l \in L$ l\"osen wir das Model: \\
 	\vspace{0.2cm}
 	\textbf{Graph:}  $G=(V:=\{l\}\cup S \cup F \cup K ,\: \:   A:= I\backslash I_L \cup A$)\\
-	\vspace{0.2cm}
+	\textbf{Kosten:}
+	\begin{align*}
+	c': A \rightarrow \Q, ij  \mapsto \left\{\begin{array}{cl} 
+	c(ij), & \text{falls } ij \in I\backslash I_L \cup A_2\\ 
+	c(ij)+c(j), & \text{falls } ij \in A_1\\ 
+	\end{array}
+	\right.
+	\end{align*}
 	\textbf{Entscheidungsvariablen:}\\
 	\begin{tabular}{lll}
 		$y_{ij}^t \in \{0,1\}$ &$\forall ij \in A, t\in K $ & modelliert einen Fluss für jeden Kunden $t$ \\
