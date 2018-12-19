@@ -6,3 +6,5 @@
 *.synctex.gz
 *.toc
 *.out
+*.nav
++.snm
