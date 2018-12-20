@@ -12,6 +12,9 @@
 \usepackage{amsmath,amssymb,amstext,amsthm}
 \usepackage{babelbib}
 \usepackage[linesnumbered]{algorithm2e}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{tikz-cd}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
@@ -186,7 +189,7 @@
 		
 		\begin{frame}{Erweiterung des P2PGK mit Profit}
 			\begin{itemize}
-				\item ändere Kostenfunktion
+				\item ändere Kostenfunktion:
 			\end{itemize}
 			\begin{align*}
 			c': A' \rightarrow \Q, ij \mapsto \left\{\begin{array}{cl} 
@@ -274,6 +277,40 @@
 \end{frame}
 
 \begin{frame}{Ergebnisse: P2MP mit Glasfaser}
+	\begin{figure}[!htbp]
+	 \centering
+				\includegraphics[width=0.9\textwidth]{./Bilder/P2MPG_Berlin_demand1_duration0}
+				\caption{Lösung des P2MPG Problems auf der Instanz Berlin mit Splitter 4}
+				\label{p2mpg_b_pic}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Ergebnisse: P2MP mit Glasfaser}
+ \begin{table}[h]
+ 	\centering
+ 	\begin{tabular}{c|c|c}
+ 		Instanz & Naunyn & Berlin \\	
+ 		\hline
+ 		Kosten für $a=4$ & 449.255,33 & 705.182,94 \\
+ 		Laufzeit auf PC1 & 0,046s & 2h 14m \\
+ 		\hline
+ 		Kosten für $a=16$ & 449.255,33 & 705.182,94 (obere Schranke, GAP 0,36\%) \\
+ 		Laufzeit auf PC1 & 0,029s & 3h 32 m \\
+ 	\end{tabular}
+ 	\caption{Ergebnisse des P2MPG f\"ur Naunyn und Berlin}
+ 	\label{P2MPG_Tabelle_N_B}
+ \end{table}
+ 
+ \begin{table}[h]
+ 	\centering
+ 	\begin{tabular}{c|c|c|c|c}
+ 		Vehlefanz & untere Schranke & obere Schranke & Gap & Laufzeit\\
+ 		\hline
+ 		Kosten $a=4$ & 1.528.315,57 & 1.537.043,86 & 0,568\% & 10h 8m\\
+ 	\end{tabular}
+ 	\caption{Ergebnisse des P2MPG f\"ur Vehlefanz}
+ 	\label{P2MPG_Tabelle_V}
+ \end{table}
 \end{frame}
 
 \begin{frame}{Point-to-multipoint mit Glasfaser und Kupfer}
@@ -325,18 +362,110 @@
 \end{frame}
 
 \begin{frame}{Ergebnisse: P2MP mit Glasfaser und Kupfer}
+	\begin{figure}[!htbp]
+		\centering
+				\includegraphics[width=0.8\textwidth]{./Bilder/P2MPGK_Berlin_demand1_duration0}
+				\caption{L\"osung des P2MPGK Problems mit \(a = 4\) auf der Instanz Berlin}
+				\label{p2mpgk_b_pic_sn4}
+	\end{figure}
 \end{frame}
-	
-\begin{frame}{Erweiterung des P2MPGK mit Bedarfserhöhung}
 
+\begin{frame}{Ergebnisse: P2MP mit Glasfaser und Kupfer}
+	 \begin{table}[h]
+	 	\centering
+	 	\begin{tabular}{c|c|c|c}
+	 		Instanz & Naunyn & Berlin & Vehlefanz \\	
+	 		\hline
+	 		Kosten für $a=4$ & 397.662,0 & 474.909,28 & 587.503,28 \\
+	 		Laufzeit auf PC1 & 0,03s & 7m 13s & 14m 55s \\
+	 		\hline
+	 		Kosten für $a=16$ & 397.662,0 & 474.909,28 & -\\
+	 		Laufzeit auf PC1 & 0,03s & 27m 12s & - \\
+	 	\end{tabular}
+	 	\caption{Ergebnisse des P2MPGK}
+	 	\label{P2MPGK}
+	 \end{table}
 \end{frame}
+
+\begin{frame}{Erweiterung des P2MPGK mit Bedarfserhöhung}
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{c|c|c}
+		\centering
+		$f$ & Kosten & $A_G$ \\	
+		\hline
+		$1$   	 &  \(587.503,28\) & 0  \\
+		$1,5$ 	&   $587.503,28$  & 0  \\
+		$2$   	&   $615.147,07$ & 3 \\
+		$2,5$   	&   $628.724,59$ & 7 \\
+		$3$    &   $677.145,90$ & 14 \\
+		$3,5$   	&   $756.123,57$ & 40 \\
+	\end{tabular}
+	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Vehlefanz} 
+	\label{P2MPGKBedarfV}
+\end{table}
+\end{frame}
+
+		\begin{frame}{Erweiterung des P2MPGK mit Profit}
+			\begin{itemize}
+				\item ändere Kostenfunktion:
+			\end{itemize}
+		\begin{align*}
+			c'': A  \rightarrow \Q,  ij  \mapsto \left\{\begin{array}{cl} 
+			c'(ij), & \text{falls } ij \in I\backslash I_L \\ 
+			c'(ij) -t  \cdot p_1(j), & \text{falls } ij \in A_1 \\ 
+			c'(ij) -t \cdot p_2(j), & \text{falls } ij \in  A_2 \\ 
+		\end{array}  \right.
+		\end{align*}
+			\begin{itemize}
+				\item erweitere P2MPGK Model:
+			\end{itemize}
+			\begin{align*}
+			x_{ij} \leq \displaystyle\sum_{t \in K} y_{ij}^t \quad \forall ij \in A \text{ mit } c(ij) \leq 0
+			\end{align*}
+		\end{frame}
 
 \begin{frame}{Erweiterung des P2MPGK mit Profit}
-	
+	\begin{table}[!htbp]
+		\centering
+		\begin{tabular}{c|c|c}
+			\centering
+			Jahre & Kosten & $A_G$ \\	
+			\hline
+			$0$   	 &  \(474.909,28\) & 3  \\
+			$10$ 	&  \(316.320,18\) & 5  \\
+			$20$   	&   \(145.851,10\) & 7  \\
+			$30$    &   $ -34.146,17$	& 15  \\
+			$40$    & $-235.002,54$ &  24 \\
+		\end{tabular}
+		\caption{Ergebnisse des P2MPGK mit Profit f\"ur Berlin}
+	\end{table}
 \end{frame}
 
 \begin{frame}{Zusammenfassung}
-
+ \begin{figure}[!htbp]
+ 	\begin{tikzpicture}
+ 	\begin{axis}[
+ 	symbolic x coords={P2MPGK1,P2PGK1,P2MPGK1.5,P2MPGK3,P2MPG,P2PGK1.5,P2PGK3,P2PG },
+ 	x tick label style={rotate=45,anchor=east},
+ 	height=6cm, width=10cm,
+ 	bar width=0.4cm,
+ 	enlarge x limits=true,
+ 	ylabel=Kosten]
+ 	\addplot[ybar,fill=red] coordinates {
+ 		(P2PGK1,      524392)
+ 		(P2PGK1.5,   709412)
+ 		(P2PGK3,        1142322)
+ 		(P2PG,        1388562)};
+ 	\addplot[ybar,fill=blue] coordinates {
+ 		(P2MPG,   705182)
+ 		(P2MPGK1,      474909)
+ 		(P2MPGK1.5,   543177)
+ 		(P2MPGK3,    653629)};
+ 	\end{axis}
+ 	\end{tikzpicture}
+ 	\caption{\"Ubersicht der Ergebnisse der Instanz Berlin}
+ \end{figure}
 \end{frame}
 
 	
