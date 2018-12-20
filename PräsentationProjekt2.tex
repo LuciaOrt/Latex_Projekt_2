@@ -37,7 +37,7 @@
 
 \institute[]{Netzwerkoptimierung in der Praxis}
 
-\date{16. November 2018}
+\date{20. Dezember 2018}
 
 \begin{document}
 	\begin{frame} %C
@@ -68,7 +68,7 @@
 			
 			\ForAll{$l\in L$}{
 				\ForAll{$f \in F_1$}{
-					Berechne $W_{l,f}$ und $c_{\text{dij}}(\{l,f\})$ mit dem Dijkstra-Algorithmus auf $H=(\{l\} \cup S \cup F , I,c\mid_I)$}
+					Berechne $W_{l,f}$ und $c_{\text{dij}}(lf)$ mit dem Dijkstra-Algorithmus auf $H=(\{l\} \cup S \cup F , I,c\mid_I)$}
 				$C_l:=c(l) + \displaystyle\sum_{f \in F_1} c_{\text{dij}}(lf) + c(f)$. 
 			}
 			Leitstelle$:=i:=\arg \displaystyle\min_{l \in L} C_l$\\
@@ -209,7 +209,7 @@
 			\end{frame}
 		\begin{frame}{Erweiterung des P2PGK mit Profit}
 			\begin{itemize}
-				\item $A_G$ die Anzahl der Kunden mit einem Glasfaseranschluss
+				\item $A_G$ sei die Anzahl der Kunden mit einem Glasfaseranschluss
 			\end{itemize}
 
 			\begin{table}[h]
@@ -286,7 +286,7 @@
 \end{frame}
 
 \begin{frame}{Ergebnisse: P2MP mit Glasfaser}
- \begin{table}[h]
+\begin{table}[h]
  	\centering
  	\begin{tabular}{c|c|c}
  		Instanz & Naunyn & Berlin \\	
@@ -300,13 +300,14 @@
  	\caption{Ergebnisse des P2MPG f\"ur Naunyn und Berlin}
  	\label{P2MPG_Tabelle_N_B}
  \end{table}
- 
  \begin{table}[h]
  	\centering
  	\begin{tabular}{c|c|c|c|c}
- 		Vehlefanz & untere Schranke & obere Schranke & Gap & Laufzeit\\
+ 		Vehlefanz & untere Schranke & obere Schranke & Gap & Laufzeit PC1\\	
  		\hline
- 		Kosten $a=4$ & 1.528.315,57 & 1.537.043,86 & 0,568\% & 10h 8m\\
+ 		Kosten $a=4$ & \(1.528.315,57\) & \(1.537.043,86\) & 0,56\% & 10h 8m\\
+ 		\hline
+ 		Kosten $a=16$ & \(1.518.523,09\) & \(1.536.806,34\) & 1,18\% & 8h 20m \\
  	\end{tabular}
  	\caption{Ergebnisse des P2MPG f\"ur Vehlefanz}
  	\label{P2MPG_Tabelle_V}
@@ -356,7 +357,7 @@
 	  0\geq&\displaystyle\sum_{ji \in A} x_{ji} - \displaystyle\sum_{ij \in A} x_{ij}&\geq& -(a-1)s_i & \forall i \in S \cup F_1\\
 	  0\geq&\displaystyle\sum_{ji \in A} x_{ji} -m_i - \displaystyle\sum_{ij \in I \cup A_1} x_{ij}&\geq& -(a-1)s_i & \forall i \in F_2\\
 	  &s_i+m_i & \leq & 1 & \forall i \in F_2 \\
-	  &x_{ij}& \leq & m_i & \forall i \in F_2 \\
+	  &x_{ij}& \leq & m_i & \forall i \in F_2, ij \in A_2 \\
 	  \end{array}
 	  \end{align*}
 \end{frame}
@@ -388,6 +389,9 @@
 \end{frame}
 
 \begin{frame}{Erweiterung des P2MPGK mit Bedarfserhöhung}
+				\begin{itemize}
+					\item $A_G$ sei die Anzahl der Kunden mit einem Glasfaseranschluss
+				\end{itemize}
 \begin{table}[!htbp]
 	\centering
 	\begin{tabular}{c|c|c}
@@ -401,7 +405,7 @@
 		$3$    &   $677.145,90$ & 14 \\
 		$3,5$   	&   $756.123,57$ & 40 \\
 	\end{tabular}
-	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $d$ f\"ur Vehlefanz} 
+	\caption{Ergebnisse des P2MPGK mit Bedarfsfaktor $f$ f\"ur Vehlefanz} 
 	\label{P2MPGKBedarfV}
 \end{table}
 \end{frame}
@@ -426,6 +430,9 @@
 		\end{frame}
 
 \begin{frame}{Erweiterung des P2MPGK mit Profit}
+			\begin{itemize}
+				\item $A_G$ sei die Anzahl der Kunden mit einem Glasfaseranschluss
+			\end{itemize}
 	\begin{table}[!htbp]
 		\centering
 		\begin{tabular}{c|c|c}

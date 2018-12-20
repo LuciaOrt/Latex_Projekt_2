@@ -214,6 +214,7 @@ Dazu konstruieren wir einen weiteren Hilfsgraphen. Sei dazu $D=\{lf \mid f \in F
 Diese Kanten $lf$ ersetzen den errechneten kürzesten Weg $W_{l,f}$ von $l$ nach $f$. Der Hilfsgraph $H'=(V',A')$ besteht nun aus den Knoten $V'=\{l\} \cup F \cup K$ und den Kanten $D$ zusammen mit den Anschlusskanten von Typ 1 und Typ 2 ($A'=D \cup A_1 \cup A_2$), wie in Abbildung \ref{H''} dargestellt.
 
 \begin{figure}[h]
+	\centering
 \begin{tikzpicture}[->,>={Stealth[round,sep]},shorten >=1pt]
 \node[shape=circle,draw=black] (1) at (0,0) {$l$};
 \node[shape=circle,draw=black] (2) at (-4,-2) {$f_1$};
@@ -229,9 +230,9 @@ Diese Kanten $lf$ ersetzen den errechneten kürzesten Weg $W_{l,f}$ von $l$ nach
 \node at (0,-2) {\ldots};
 %\node at (0,-3) {\ldots};
 \node at (1,-4) {\ldots};
-\node at (-6.5,0) {Leitstelle};
-\node at (-6.5,-2) {Facilities};
-\node at (-6.5,-4) {Kunden};
+\node at (-7,0) {Leitstelle};
+\node at (-7,-2) {Facilities};
+\node at (-7,-4) {Kunden};
 \path (1) edge node[left, pos = 0.5] {} (2);
 \path (1) edge node[left, pos = 0.5] {} (3);
 \path (1) edge node[right, pos = 0.6] {} (4);
@@ -639,8 +640,9 @@ Diese Nebenbedingung ist ebenfalls wie bei der Erweiterung des P2P Problems notw
  \textbf{Auswertung:} Bei den Ergebnissen des P2MPGK Problems mit Ber\"ucksichtigung der verschiedenen Profite f\"ur die drei Instanzen \eqref{P2MPGKProfitN}, \eqref{P2MPGKProfitB} und \eqref{P2MPGKProfitV} lassen sich einige Gemeinsamkeiten erkennen.
  Bei den Instanzen Naunyn und Berlin werden erst ab einer Betrachtung von 40 Jahren mindestens die H\"alfte der Gesamtzahl der Kunden (4 bzw. 39) mit Glasfaserkanten angeschlossen.
  Bei Naunyn wird sogar bei einer Betrachtung von 30 Jahren noch kein Kunde mit Glasfaser angeschlossen.
- Im Gegensatz zum P2PGK Problem (bei diesem wurde erst nach 40 Jahren ein Kunde mehr mit Glasfaser angeschlossen) werden bei Berlin bereits nach 10 Jahren schon 5 Kunden mit Glasfaser angeschlossen. Die Anzahl steigt dennoch recht langsam. Da ein Zeitraum von 30 oder gar 40 Jahren den \"ublichen Planungshorizont eines Telekommunikationsunternehmens \"ubersteigt, sollte das Unternehmen diese Profite der verschiedenen Anschlusstechnologien nicht ber\"ucksichtigen.  Das heißt, es sollten eventuell nun 7 Kunden anstatt 3 mit Glasfaser angeschlossen werden, aber nicht 24, wie nach 40 Jahren. Die Leitstelle bleibt für jede Periode $t$ dieselbe.
- \TODO Die Analyse der Ergebnisse für Vehlefanz aus Tabelle \ref{P2MPGKProfitV} ergibt das selbe Ergebnis.
+ Im Gegensatz zum P2PGK Problem (bei diesem wurde erst nach 40 Jahren ein Kunde mehr mit Glasfaser angeschlossen) werden bei Berlin bereits nach 10 Jahren schon 5 Kunden mit Glasfaser angeschlossen. Die Anzahl steigt dennoch recht langsam. Da ein Zeitraum von 30 oder gar 40 Jahren den \"ublichen Planungshorizont eines Telekommunikationsunternehmens \"ubersteigt, sollte das Unternehmen diese Profite der verschiedenen Anschlusstechnologien nicht ber\"ucksichtigen.  Das heißt, es sollten eventuell nun 7 Kunden anstatt 3 mit Glasfaser angeschlossen werden, aber nicht 24, wie nach 40 Jahren.  Die Analyse der Ergebnisse für Vehlefanz aus Tabelle \ref{P2MPGKProfitV} ergibt dasselbe Ergebnis.
+ Erwähnenswert ist noch, dass für jede Instanz die Leitstelle für jede Periode $t$ dieselbe bleibt.
+
  
 Betrachten wir nun die Möglichkeit, dass zwei unterschiedliche Splitterarten installiert werden können.
 Dazu seien die Kosten des ersten Splitters $c_s$ und es sei $a$ die Anzahl der ausgehenden Kanten des Splitters.
@@ -666,6 +668,7 @@ Dabei lassen wir das \(m_i\) in den Nebenbedingungen (\(4'\)) und (\(8''\)) f\"u
 In diesem Kapitel veranschaulichen wir unsere gesamten Ergebnisse auf allen drei Instanzen der verschiedenen Probleme noch einmal graphisch. Dazu sind die Ergebnisse der Probleme P2P mit Glasfaser, P2P mit Kupfer und Glasfaser mit Bedarfsfaktoren $d=1, d=1,5, d=3$, P2MP mit Glasfaser und P2MP mit Kupfer und Glasfaser mit Bedarfsfaktoren $d=1, d=1,5, d=3$ der Größe nach sortiert in einem Balkendiagramm dargestellt. Wir betrachten die P2MP Probleme nur für $a=4$.
 
   \begin{figure}[!htbp]
+  	\centering
  	\begin{tikzpicture}
  	\begin{axis}[
  	symbolic x coords={P2PGK1,P2MPGK1,P2MPGK1.5,P2MPGK3,P2PGK1.5,P2PGK3,P2MPG,P2PG},
@@ -692,7 +695,9 @@ In diesem Kapitel veranschaulichen wir unsere gesamten Ergebnisse auf allen drei
  Da es in der Instanz Naunyn nur 4 Kunden gibt, ist diese Instanz zu klein und bei verschiedenen Problemen entstehen die gleichen Lösungen. Zum Beispiel sind die Lösungen des P2PGK und des P2MPGK identisch, siehe Abbildungen \eqref{p2pgk_n_pic} und \eqref{p2mpgk_n_pic_sn4}.
  
  \begin{figure}[!htbp]
+ 	\centering
  	\begin{tikzpicture}
+ 	
  	\begin{axis}[
  	symbolic x coords={P2MPGK1,P2PGK1,P2MPGK1.5,P2MPGK3,P2MPG,P2PGK1.5,P2PGK3,P2PG },
  	x tick label style={rotate=45,anchor=east},
@@ -719,9 +724,10 @@ In diesem Kapitel veranschaulichen wir unsere gesamten Ergebnisse auf allen drei
  
  
   \begin{figure}[!htbp]
+  	\centering
  	\begin{tikzpicture}
  	\begin{axis}[
- 	symbolic x coords={P2MPGK1, P2MPGK1.5,P2PGK1,P2PGK1.5,P2MPGK3,P2PGK3,P2MPG,(P2PG)},
+ 	symbolic x coords={P2MPGK1, P2MPGK1.5,P2PGK1,P2PGK1.5,P2MPGK3,P2PGK3,P2MPG,P2PG},
  	x tick label style={rotate=45,anchor=east},
  	height=6cm, width=10cm,
  	bar width=0.4cm,
@@ -731,7 +737,7 @@ In diesem Kapitel veranschaulichen wir unsere gesamten Ergebnisse auf allen drei
  		(P2PGK1,      647408)
  		(P2PGK1.5,  647608)
  		(P2PGK3,        1274782)
- 		((P2PG),        3791258)};
+ 		(P2PG,        7791258)};
  	\addplot[ybar,fill=blue] coordinates {
  		(P2MPG,   1537043)
  		(P2MPGK1,      587503)
@@ -741,9 +747,7 @@ In diesem Kapitel veranschaulichen wir unsere gesamten Ergebnisse auf allen drei
  	\end{tikzpicture}
  	\caption{\"Ubersicht der Ergebnisse der Instanz Vehlefanz}
  \end{figure}
-
-
-F\"ur unsere gr\"oßte Instanz Vehlefanz ist sehr auff\"allig, dass die Kosten sowohl f\"ur das P2PGK mit Bedarfsfaktoren 1 und 1,5 als auch f\"ur das P2MPGK mit Bedarfsfaktoren 1, 1,5 und 3 nicht stark variieren.
+F\"ur unsere gr\"oßte Instanz Vehlefanz ist sehr auff\"allig, dass im Verhältnis die Kosten sowohl f\"ur das P2PGK mit Bedarfsfaktoren 1 und 1,5 als auch f\"ur das P2MPGK mit Bedarfsfaktoren 1, 1,5 und 3 nicht stark variiere.
 Dahingegen weichen die Kosten f\"ur reinen Glasfaseranschluss deutlich nach oben ab.
 
 Wir kommen zu unserem Fazit, dass das P2MPGK Problem auch mit Bedarfsfaktoren und Profiten h\"aufig kosteng\"unstigere L\"osungen liefert als das P2PGK Problem mit nur wenigen erh\"ohten Bedingungen.
@@ -753,7 +757,6 @@ Ist man hingegen an einer m\"oglichst schnell zu generierenden L\"osung interess
 \bibliographystyle{babplain-lf}
 \renewcommand{\refname}{Literaturverzeichnis}
 \bibliography{literatureProject1}
-\thispagestyle{empty}
 \newpage
 \appendix
 \section*{Abbildungsverzeichnis}
@@ -1151,7 +1154,6 @@ Hier sind die Ergebnisse des P2MPGK Problems mit Profit. Dabei ist $A_G$ die Anz
 \end{table}
 
 \addcontentsline{toc}{section}{Anhang}
-\thispagestyle{empty}
 
 
 \end{document}
