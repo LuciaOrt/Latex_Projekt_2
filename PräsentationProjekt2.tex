@@ -12,6 +12,9 @@
 \usepackage{amsmath,amssymb,amstext,amsthm}
 \usepackage{babelbib}
 \usepackage[linesnumbered]{algorithm2e}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{tikz-cd}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
@@ -440,7 +443,29 @@
 \end{frame}
 
 \begin{frame}{Zusammenfassung}
-
+ \begin{figure}[!htbp]
+ 	\begin{tikzpicture}
+ 	\begin{axis}[
+ 	symbolic x coords={P2MPGK1,P2PGK1,P2MPGK1.5,P2MPGK3,P2MPG,P2PGK1.5,P2PGK3,P2PG },
+ 	x tick label style={rotate=45,anchor=east},
+ 	height=6cm, width=10cm,
+ 	bar width=0.4cm,
+ 	enlarge x limits=true,
+ 	ylabel=Kosten]
+ 	\addplot[ybar,fill=red] coordinates {
+ 		(P2PGK1,      524392)
+ 		(P2PGK1.5,   709412)
+ 		(P2PGK3,        1142322)
+ 		(P2PG,        1388562)};
+ 	\addplot[ybar,fill=blue] coordinates {
+ 		(P2MPG,   705182)
+ 		(P2MPGK1,      474909)
+ 		(P2MPGK1.5,   543177)
+ 		(P2MPGK3,    653629)};
+ 	\end{axis}
+ 	\end{tikzpicture}
+ 	\caption{\"Ubersicht der Ergebnisse der Instanz Berlin}
+ \end{figure}
 \end{frame}
 
 	
